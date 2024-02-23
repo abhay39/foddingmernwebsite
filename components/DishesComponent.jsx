@@ -1,11 +1,20 @@
 "use client"
+import { CartActions } from "@/store/cartSlice";
+import { WhistListActions } from "@/store/whistListSlice";
 import Image from "next/image";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaRegHeart,FaHeart,FaStar   } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 
 
-const DishesComponent = ({imgLink,itemName,itemPrice,itemRating,itemDesc}) => {
+const DishesComponent = ({item}) => {
+
+    const dispatch=useDispatch();
+    const wist=WhistListActions;
+    const cart=CartActions;
+
+
     const [isClicked,setIsClicked]=useState(false);
     const [itemQty,setItemQty]=useState(1)
 
@@ -29,33 +38,82 @@ const DishesComponent = ({imgLink,itemName,itemPrice,itemRating,itemDesc}) => {
         }
     }
 
+    const removeFromWistList=()=>{
+        const data={
+            item:item
+        }
+        
+        dispatch(wist.removeFromWishlist(data))
+        setIsClicked(!isClicked)
+        toast.success("Item removed from whistlist!")
+    }
+
+    const addToWistList=()=>{
+        const data={
+            item:item
+        }
+        // const data={
+        //     imgOfItem:imgLink,
+        //     nameOfItem:itemName,
+        //     priceOfItem:itemPrice,
+        //     ratingOfItem:itemRating,
+        //     descOfItem:itemDesc,
+        //     idOfItem:id
+        // }
+        dispatch(wist.addToWishlist(data))
+        setIsClicked(!isClicked)
+        toast.success("Item added to whistlist!")
+    }
+
+    const addToCart=()=>{
+        const data={
+            idofItem:item.id,
+            imgOfItem:item.images,
+            nameOfItem:item.name,
+            priceOfItem:Number(item.price),
+            ratingOfItem:item.rating,
+            descOfItem:item.desc,
+            qtyOfItem:Number(itemQty),
+        }
+        
+        dispatch(cart.addToCart(data))
+        toast.success("Item Added to Cart");
+    }
+
+    const removeFromCart=()=>{
+        // const data={
+        //     item:item
+        // }
+        // const data={
+        //     idOfItem:id,
+        // }
+        dispatch(cart.removeFromCart(item))
+        toast.success("Item Added to Cart");
+    }
+
   return (
     <div className='w-full mt-3 mb-4 md:mt-0 md:w-[420px] h-[446px] bg-[#ffffff] rounded-lg rounded-tr-[37.5px] relative flex flex-col  '>
         <div className='w-[87px] h-[75px] bg-green rounded-tr-[37.5px] rounded-bl-[42.5px] flex items-center justify-center absolute right-0'>
             {
                 isClicked?
-                <FaHeart size={24} cursor="pointer" onClick={()=>{
-                    setIsClicked(!isClicked)
-                }} color="white"/>
+                <FaHeart  size={24} cursor="pointer" onClick={removeFromWistList} color="white"/>
                 :
-                <FaRegHeart onClick={()=>{
-                    setIsClicked(!isClicked)
-                }}  size={24} cursor="pointer" color="white"/>
+                <FaRegHeart  onClick={addToWistList}  size={24} cursor="pointer" color="white"/>
             }
         </div>
         <div className="flex flex-col items-center justify-center mt-[60px] ">
-            <Image className=" cursor-pointer select-none hover:scale-105 duration-700 ease-in" src={imgLink} height={200}  width={200} alt="foods"/>
+            <Image className=" cursor-pointer select-none hover:scale-105 duration-700 ease-in" src={item.images} height={200}  width={200} alt="foods"/>
         </div>
-        <div className=" px-10 select-nonelo">
-            <h1 className='text-[20px]  mt-1 md:text-[30px] font-[700]'>{itemName}</h1>
-            <span className='text-[14px] mt-1 md:text-[20px] text-[#555555] font-[700]'>{itemDesc}</span>
+        <div className=" px-10 select-none">
+            <h1 className='text-[20px]  mt-1 md:text-[30px] font-[700]'>{item.name}</h1>
+            <span className='text-[14px] mt-1 md:text-[20px] text-[#555555] font-[700]'>{item.desc}</span>
             <div className="flex mt-1 justify-between items-center">
                 <span className='text-[14px]  md:text-[20px] text-[#555555] font-[700]'>
                 <span className="text-red">Rs. </span>
-                {itemPrice}</span>
+                {item.price}</span>
 
                 <span className='text-[14px]  md:text-[20px] text-[#555555] font-[700] flex flex-row items-center'>
-                    <FaStar  color="#FFE605"/>{itemRating}
+                    <FaStar  color="#FFE605"/>{item.rating}
                 </span>
             </div>
         </div>
@@ -63,10 +121,10 @@ const DishesComponent = ({imgLink,itemName,itemPrice,itemRating,itemDesc}) => {
         <div className=" px-10 flex items-center justify-between">
             <div>
                 <button onClick={plusClicked} className="bg-green p-2 rounded-md w-10 text-white text-[18px]">+</button>
-                <input className="w-20 h-10 bg-slate-100 p-3 rounded-lg border-none outline-none"  type="number" value={itemQty} name="qty" id="qty" />
+                <input className="w-20 h-10 bg-slate-100 p-3 rounded-lg border-none outline-none"  type="number" value={itemQty} name="qty" id="qty" onChange={(e)=>setItemQty(e.target.value)}/>
                 <button onClick={subsClicked} className="bg-red p-2 rounded-md w-10 text-white text-[18px]">-</button>
             </div>
-            <button className="bg-green p-3 rounded-lg text-white font-[400]">Add to Cart</button>
+            <button onClick={addToCart}  className="bg-green p-3 rounded-lg text-white font-[400]">Add to Cart</button>
         </div>
 
     </div>

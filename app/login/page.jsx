@@ -1,13 +1,12 @@
 "use client"
 import Cookies from 'js-cookie';
+
 import Link from 'next/link';
 import { useState } from 'react'
 import { toast } from 'react-hot-toast';
-import { FaGithub } from 'react-icons/fa';
-import { FaFacebook } from "react-icons/fa6";
-import { FcGoogle } from "react-icons/fc";
+
 import { useSelector } from 'react-redux';
-import { useSyncExternalStoreWithSelector } from 'use-sync-external-store/with-selector.js';
+
 
 const page = () => {
    const url=useSelector(item=>item.APIReducer);
@@ -20,8 +19,7 @@ const page = () => {
     
     const [password, setPassword] = useState('');
 
-    const handelLogin=async(e)=>{
-        e.preventDefault();
+    const handelLogin=async()=>{
 
     // Basic validation
         if (!email.trim()) {
@@ -71,6 +69,7 @@ const page = () => {
             Cookies.set("token",token,{
                 expires:15,path:"/"
             });
+            window.location.href="/";
         }else{
             toast.error(res.message)
         }
@@ -105,19 +104,19 @@ const page = () => {
             </button>
             <br />
             <p className=' text-sm text-gray-500 text-center'>{"New here? "}
-                <Link className='  text-black font-semibold' href={"/signUp"}>
+                <Link className='  text-black font-semibold' href={"/register"}>
                     Create a new Account
                 </Link>
             </p>
             <hr className='  border-blue-600 border-[1.5px]'/>
 
-            <p className=' text-center text-sm'> Or sign in with</p>            
+            {/* <p className=' text-center text-sm'> Or sign in with</p>             */}
             
-            <div className=' flex justify-around items-center mt-3'>
+            {/* <div className=' flex justify-around items-center mt-3'>
                 <FaFacebook color="blue" className=' rounded-full rounded-green cursor-pointer' size={25}/>
-                <FcGoogle   color="green" className=' rounded-full rounded-green cursor-pointer' size={25}/>
+                <FcGoogle onClick={()=>signIn("google")}   color="green" className=' rounded-full rounded-green cursor-pointer' size={25}/>
                 <FaGithub color="black" className=' rounded-full rounded-green cursor-pointer' size={25} />
-            </div>
+            </div> */}
 
         </div>
     </div>

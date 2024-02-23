@@ -25,7 +25,7 @@ const page = () => {
       {
         menuDishesAll.map((item,index)=>{
           return(
-            <DishesComponent imgLink={item.images} itemName={item.name} itemPrice={item.price} itemDesc={item.desc} itemRating={item.rating} key={index}/>
+            <DishesComponent key={index} item={item} />
           )
         })
       }

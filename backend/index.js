@@ -10,7 +10,7 @@ dotenv.config();
 app.use(express.json())
 app.use(cors())
 
-const connectMongo=async()=>{
+export const connectMongo=async()=>{
     try{
         await mongoose.connect(process.env.MONGODB_URI)
         console.log("Connected to MongoDB");

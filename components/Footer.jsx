@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <div className='grid bg-slate-100 p-6 md:flex-row justify-around grid-cols-2 md:grid-cols-4'>
       <div className='w-full '>
-        <Image src="/logo.png" alt='logo' height={50} width={100} />
+        <Image loading="lazy" src="/logo.png" alt='logo' height={50} width={100} />
         <span className='text-xs md:text-sm'>Savor the artistry where every dish  <br />is a culinary masterpiec</span>
       </div>
 

@@ -6,6 +6,9 @@ const nextConfig = {
     
         return config;
       },
+      images: {
+        domains: ['avatar.iran.liara.run'],
+      }
 };
 
 export default nextConfig;

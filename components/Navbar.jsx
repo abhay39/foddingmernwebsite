@@ -1,19 +1,43 @@
 "use client"
+import { CartActions } from '@/store/cartSlice';
 import Cookies from 'js-cookie';
 import Image from 'next/image'
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { FaHeart } from 'react-icons/fa';
 import { FiPhoneCall } from "react-icons/fi";
+import { useDispatch, useSelector } from 'react-redux';
 
 const Navbar = () => {
-  const [isToken,setIsToken]=useState('');
-  const [showProfile,setShowProfile]=useState(false);
+  const whist=useSelector(item=>item.WishlistReducer);
+  const cart=useSelector(item=>item.CartReducer);
+  const user=useSelector(item=>item.UserReducer);
 
-  useEffect(()=>{
-    const isUser=Cookies.get("token");
-    setIsToken(isUser);
-    // console.log(isUser)
-  },[])
+  const cartActions=CartActions;
+  const dispatch=useDispatch();
+
+  const [isToken,setIsToken]=useState('');
+  const [getCartLength,setGetCartLength]=useState([]);
+  const [isProfileHovered, setIsProfileHovered] = useState(false);
+  
+  
+  
+  
+  useLayoutEffect(() => {
+    const isUser = Cookies.get("token");
+    setIsToken((prevIsToken) => prevIsToken || !!isUser);
+    
+    const getLengths=localStorage.getItem('carts');
+    setGetCartLength(JSON.parse(getLengths));
+  }, []);
+  
+  const handleLogout=async()=>{
+    Cookies.remove("token");
+    setIsToken('');
+    setIsProfileHovered(false);
+    window.location.reload();
+  }
+  
 
 const navItems=(
 <>
@@ -41,24 +65,31 @@ const navItems=(
 
     <li><a>Offers</a></li>
     {
-      isToken? (<>
-        <li className={` hover:${setShowProfile(true)}`}><a href='/profile'>Abhay</a></li>
-        <li className=' md:hidden'><a href='/cart'>My Cart</a></li>
-        {/* {
-          showProfile?(<>
-            <li className=' '><a href='/cart'>Profile</a></li>
-            <li className=' '><a href='/cart'>Logout</a></li>
-          </>) :(null)
-        } */}
-      </>
-      ):(<li><a href='/login'>Login</a></li>)
-    }
+  isToken ? (
+    <>
+
+      <li>
+        <details>
+            <summary>{user?.name}</summary>
+            <ul className="p-2">
+                <li><Link href="/profile">Profile</Link></li>
+                <li className='md:hidden'><a href='/cart'>My Cart</a></li>
+                <li><button onClick={handleLogout}>Logout</button></li>
+            </ul>
+        </details>
+      </li>
+      
+    </>
+  ) : (
+    <li><a href='/login'>Login</a></li>
+  )
+}
 
 </>
 )
 
 return (
-<div>
+<div className=" sticky z-10 w-full top-0 bg-slate-100 shadow-2xl">
     <div className="navbar ">
         <div className="navbar-start ">
             <div className="dropdown">
@@ -74,7 +105,7 @@ return (
                 </ul>
             </div>
             <a className="btn btn-ghost text-xl" href='/'>
-                <Image src="/logo.png" alt='logo' height={50} width={100} />
+                <Image loading="lazy" src="/logo.png" alt='logo' height={50} width={100} />
             </a>
         </div>
         <div className="navbar-center hidden lg:flex">
@@ -87,12 +118,22 @@ return (
         <button className="btn btn-ghost btn-circle hidden lg:flex">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
         </button>
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle mr-3 hidden lg:flex items-center justify-center ">
+          
+             
+              <Link href="/cart" tabIndex={0}  role="button" className="btn btn-ghost btn-circle mr-3 hidden lg:flex items-center justify-center ">
+                <div className="indicator">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                  <span className="badge badge-sm indicator-item">{user?.cart?.length || 0}</span>
+                </div>
+              </Link>
+            
+          
+          <Link href="/whistlist" tabIndex={0}  role="button" className="btn btn-ghost btn-circle mr-3 hidden lg:flex items-center justify-center ">
             <div className="indicator">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-              <span className="badge badge-sm indicator-item">8</span>
+              <FaHeart  cursor="pointer" size={25} color='red'/>
+              <span className="badge badge-sm indicator-item">{whist.length}</span>
             </div>
-          </div>
+          </Link>
             <a className="btn bg-green rounded-full text-white flex items-center gap-2 hover:bg-gray-300">
               <FiPhoneCall />
               Contact

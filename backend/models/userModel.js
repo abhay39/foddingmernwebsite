@@ -20,6 +20,22 @@ const UserModel=new mongoose.Schema({
     profilePicture:{
         type:String,
         default:null
+    },
+    cart:{
+        type:Array,
+        default:[]
+    },
+    orders:{
+        type:Array,
+        default:[]
+    },
+    reservations:{
+        type:Array,
+        default:[]
+    },
+    whistlists:{
+        type:Array,
+        default:[]
     }
 },{timestamps:true})
 

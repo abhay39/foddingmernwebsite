@@ -23,6 +23,7 @@ export const itemsLists=[
 
 export const menuDishes=[
     {
+        id:99,
         name:"Fattoush salad",
         images:"/Fattoush salad.png",
         price:"240",
@@ -30,6 +31,7 @@ export const menuDishes=[
         desc:"Description of the item"
     },
     {
+        id:100,
         name:"Vegetable salad",
         images:"/Vegetable salad.png",
         price:"260",
@@ -37,6 +39,7 @@ export const menuDishes=[
         desc:"Description of the item"
     },
     {
+        id:65,
         name:"Egg vegi salad",
         images:"/Egg salad.png",
         price:"230",
@@ -44,6 +47,7 @@ export const menuDishes=[
         desc:"Description of the item"
     },
 ]
+
 export const menuDishesAll=[
     {
         name:"Fattoush salad",

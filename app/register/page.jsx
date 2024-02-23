@@ -1,4 +1,5 @@
 "use client"
+import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { useState } from 'react'
 import {toast} from 'react-hot-toast';
@@ -74,11 +75,10 @@ const page = () => {
         const status=res.status;
         res=await res.json();
         if(status===200){
-            const token=res.token;
+            // const token=res.token;
             toast.success(res.message)
-            Cookies.set("token",token,{
-                expires:15,path:"/"
-            });
+            
+            window.location.href="/";
         }else{
             toast.error(res.message)
         }
@@ -116,7 +116,7 @@ const page = () => {
                 Register
             </button>
             <br />
-            <p className=' text-sm text-gray-500 text-center'>{"Already have account? "}
+            {/* <p className=' text-sm text-gray-500 text-center'>{"Already have account? "}
                 <Link className='  text-black font-semibold' href={"/login"}>
                     Login in now
                 </Link>
@@ -129,7 +129,7 @@ const page = () => {
                 <FaFacebook color="blue" className=' rounded-full rounded-green cursor-pointer' size={25}/>
                 <FcGoogle   color="green" className=' rounded-full rounded-green cursor-pointer' size={25}/>
                 <FaGithub color="black" className=' rounded-full rounded-green cursor-pointer' size={25} />
-            </div>
+            </div> */}
 
         </div>
     </div>

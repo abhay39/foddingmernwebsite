@@ -16,17 +16,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} p-3 md:px-10 bg-slate-100`}>
+      <body className={`${inter.className} p-3 md:px-10 w-full bg-slate-100 min-h-screen `}>
         <StartingPage>
           <Toaster position="top-center" />
           <NextTopLoader color="#2299DD"
           initialPosition={0.08}
           crawlSpeed={200}
           height={3}
-          crawl={true}
-          showSpinner={true}
-          easing="ease"
-          speed={200}
+          
           shadow="0 0 10px #2299DD,0 0 5px #2299DD"/>
           <Navbar />
             {children}

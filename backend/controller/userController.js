@@ -3,7 +3,7 @@ import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
 
 export const register=async(req,res)=>{
-    console.log("working")
+    // console.log("working")
     const {name,email,password}=req.body;
     try{
         const checkIfUserExists =await User.findOne({
@@ -21,7 +21,7 @@ export const register=async(req,res)=>{
             profilePicture: `https://avatar.iran.liara.run/public/boy?username=${name}`
         });
         await newUser.save();
-        res.status(201).json({message: "User created successfully"});
+        res.status(200).json({message: "User created successfully"});
     }catch(err){
         res.status(400).json({message: err.message});
         console.log(err);
@@ -43,11 +43,35 @@ export const login=async(req,res)=>{
             res.status(400).json({message: "Password does not match"});
             return;
         }
+
+
         const token=jwt.sign(
-            {"id":isMatch._id},
+            {"id":checkIfUserExists._id},
             process.env.JWT_SECRET,{expiresIn:'7d'}
         )
+        
         res.status(200).json({message: "User logged in successfully",token:token});
+    }catch(err){
+        res.status(400).json({message: err.message});
+        console.log(err);
+    }
+}
+
+export const getUserDetails = async(req, res) =>{
+    const {token}=req.params;
+
+    try{
+        const verifyUser=jwt.verify(token, process.env.JWT_SECRET);
+        if(!verifyUser){
+            res.status(400).json({message: "Invalid token"});
+            return;
+        }
+        const isUser=(await User.findById(verifyUser.id));
+        if(!isUser){
+            res.status(400).json({message: "User does not exist"});
+            return;
+        }
+        res.status(200).json(isUser);
     }catch(err){
         res.status(400).json({message: err.message});
         console.log(err);
