@@ -16,18 +16,28 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} p-3 md:px-10 w-full bg-slate-100 min-h-screen `}>
+      <body className={`${inter.className}  w-full bg-slate-100 min-h-screen `}>
         <StartingPage>
           <Toaster position="top-center" />
-          <NextTopLoader color="#2299DD"
+          <NextTopLoader
+          color="#2299DD"
           initialPosition={0.08}
           crawlSpeed={200}
           height={3}
-          
-          shadow="0 0 10px #2299DD,0 0 5px #2299DD"/>
-          <Navbar />
+          crawl={true}
+          showSpinner={true}
+          easing="ease"
+          speed={200}
+          shadow="0 0 10px #2299DD,0 0 5px #2299DD" />
+          <div className=" sticky top-0 z-20">
+            <Navbar />
+          </div>
+            <div className="p-3 md:px-10">
             {children}
-          <Footer />
+            </div>
+          <div>
+            <Footer />
+          </div>
         </StartingPage>
         </body>
     </html>

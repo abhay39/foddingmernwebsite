@@ -3,20 +3,16 @@ import { MdSlowMotionVideo } from "react-icons/md";
 
 const Banner = () => {
   return (
-    <div className=' flex min-h-screen justify-center flex-col-reverse md:flex-row items-center gap-5 mt-3'>
+    <div className=' flex min-h-screen justify-center flex-col-reverse lg:flex-row items-center gap-5 mt-3'>
 
-      <div className='w-full sm:mt-16 md:w-1/2 text-center md:text-justify'>
-        <h1 className=' text-3xl md:text-[62px]  font-bold'>
-          Dive into Delights
-        </h1>
-        <br />
-        <h1 className=' text-3xl md:text-[62px]  font-bold mb-4'>
-          Of Delectable
+      <div className='w-full sm:mt-16 md:w-1/2 text-center lg:text-justify'>
+        <h1 className=' text-[30px] md:text-[62px]  w-full font-bold'>
+          Dive into Delights Of Delectable
           <span className='text-green'> Food</span>
         </h1>
-        <span className='text-[26px] mt-6 font-medium text-justify text-gray-600'>Where Each plate weaves  a story of culinary <br /> mastery and passionate craftsmanship</span>
+        <span className='text-[26px] mt-6 font-medium text-left text-gray-600'>Where Each plate weaves  a story of culinary  mastery and passionate craftsmanship</span>
 
-        <div className='flex flex-wrap mt-6 gap-9 w-full justify-center items-center md:justify-start '>
+        <div className='flex flex-wrap mt-6 gap-9 w-full justify-center items-center lg:justify-start '>
           <button className=' w-full md:w-[250px] h-[80px] bg-green p-4 rounded-3xl text-[18px] md:text-[26px] font-semibold text-white'>
             Order Now
           </button>

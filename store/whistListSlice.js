@@ -6,11 +6,16 @@ const Wishlist=createSlice({
     reducers: {
         addToWishlist:(state,action)=>{
             state.push(action.payload)
-            console.log(state.length)
         },
+
         removeFromWishlist:(state,action)=>{
+            console.log(state.length)
             return state=state.filter(item=>item.id!==action.payload.id)
-        }
+        },
+
+        remove:(state,action)=>{
+            return state=state.filter(item=>item.item.id!==action.payload.item.id)
+        },
     }
 })
 

@@ -49,6 +49,8 @@ export const login=async(req,res)=>{
             {"id":checkIfUserExists._id},
             process.env.JWT_SECRET,{expiresIn:'7d'}
         )
+
+    
         
         res.status(200).json({message: "User logged in successfully",token:token});
     }catch(err){
@@ -62,6 +64,7 @@ export const getUserDetails = async(req, res) =>{
 
     try{
         const verifyUser=jwt.verify(token, process.env.JWT_SECRET);
+
         if(!verifyUser){
             res.status(400).json({message: "Invalid token"});
             return;

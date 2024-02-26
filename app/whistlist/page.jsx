@@ -1,17 +1,23 @@
 "use client"
+import { WhistListActions } from '@/store/whistListSlice';
 import Image from 'next/image';
 import React from 'react'
-import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import { MdDeleteForever } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
 
 const page = () => {
-    const cart=useSelector(item=>item.WishlistReducer);
+    const wist=useSelector(item=>item.WishlistReducer);
+    const dispatch=useDispatch();
+    const wistlist=WhistListActions;
 
-    const shareItem=()=>{
-        navigator.share({
-            title: 'Fodding Mern Website',
-            text: 'Check out this amazing website',
-            url: 'https://foddingmernwebsite.vercel.app/'
-        })
+
+    const removeFromWistList=(id)=>{
+        const data={
+            item:id
+        }
+        dispatch(wistlist.remove(data))
+        toast.success("Item removed from whistlist!")
     }
 
   return (
@@ -22,27 +28,36 @@ const page = () => {
             <br />
         <div>
             <div className='flex items-center'>
-                <p className='font-bold w-3/4'>Item</p>
-                <p className='font-bold w-1/4'>Price</p>
+                <p className='font-bold w-2/3'>Item</p>
+                <p className='font-bold w-1/3'>Price</p>
+                <p className='font-bold w-1/3'>Action</p>
             </div>
 
             <hr className=' border-gray-300 border-[1px]'/>
         {
-                cart.length>0 ? (
-                    cart.map((item,index)=>{
+                wist.length>0 ? (
+                    wist.map((item,index)=>{
+                        
                         return(
                             <div key={index} className='flex items-center shadow-2xl mt-2 mb-2 rounded-2xl'>
-                                <div className=' flex items-center gap-4 w-3/4'>
-                                    <Image src={item.imgOfItem} alt='item' height={100} width={100}/>
+                                <div className=' flex items-center gap-4 w-2/3'>
+                                    <Image src={item.item.images} alt='item' height={100} width={100}/>
                                     <div>
-                                        <p className='font-bold '>{item.nameOfItem}</p>
-                                        <p className=' w-3/4 text-xs'>{item.descOfItem}</p>
+                                        <p className='font-bold '>{item.item.name}</p>
+                                        <p className=' w-3/4 text-xs'>{item.item.desc}</p>
                                     </div>
                                 </div>
 
-                                <p className='font-bold w-1/4' >Rs. {item.priceOfItem}</p>
-                                <p onClick={shareItem} className='font-bold  cursor-pointer absolute right-16'>x</p>
-                            </div>
+                                <p className='font-bold w-1/3' >Rs. {item.item.price}</p>
+                                <p className='font-bold w-1/3'> 
+                                    <button onClick={()=>{
+                                        removeFromWistList(item.item)
+                                    }} className='bg-[#D80B0B] text-center p-2 rounded-md text-white'>
+                                        <MdDeleteForever />
+                                    </button>
+                                </p>
+                                
+                            </div> 
                         )
                     })
                 ):

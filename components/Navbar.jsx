@@ -7,34 +7,28 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { FaHeart } from 'react-icons/fa';
 import { FiPhoneCall } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
+import Searchbar from './Searchbar';
 
 const Navbar = () => {
   const whist=useSelector(item=>item.WishlistReducer);
-  const cart=useSelector(item=>item.CartReducer);
   const user=useSelector(item=>item.UserReducer);
-
-  const cartActions=CartActions;
-  const dispatch=useDispatch();
-
   const [isToken,setIsToken]=useState('');
-  const [getCartLength,setGetCartLength]=useState([]);
-  const [isProfileHovered, setIsProfileHovered] = useState(false);
-  
+  const [openMode,setOpenMode] = useState(false)
   
   
   
   useLayoutEffect(() => {
     const isUser = Cookies.get("token");
-    setIsToken((prevIsToken) => prevIsToken || !!isUser);
-    
-    const getLengths=localStorage.getItem('carts');
-    setGetCartLength(JSON.parse(getLengths));
+    if(isUser) {
+      setIsToken(isUser);
+    }else{
+      setIsToken('');
+    }
   }, []);
   
   const handleLogout=async()=>{
     Cookies.remove("token");
     setIsToken('');
-    setIsProfileHovered(false);
     window.location.reload();
   }
   
@@ -65,30 +59,38 @@ const navItems=(
 
     <li><a>Offers</a></li>
     {
-  isToken ? (
-    <>
-
-      <li>
-        <details>
-            <summary>{user?.name}</summary>
-            <ul className="p-2">
-                <li><Link href="/profile">Profile</Link></li>
-                <li className='md:hidden'><a href='/cart'>My Cart</a></li>
-                <li><button onClick={handleLogout}>Logout</button></li>
-            </ul>
-        </details>
-      </li>
-      
-    </>
-  ) : (
-    <li><a href='/login'>Login</a></li>
-  )
-}
+      isToken ? (
+        <>
+          <li>
+            <details>
+                <summary>{user?.name}</summary>
+                <ul className="p-2">
+                    <li><Link href="/profile">Profile</Link></li>
+                  
+                    <li><button onClick={handleLogout}>Logout</button></li>
+                </ul>
+            </details>
+          </li>
+          
+        </>
+      ) : (
+        <li><a href='/login'>Login</a></li>
+      )
+    }
+    {
+      user?.role==='admin' && (
+        <ul className="p-2">        
+          <Link href="/admin"><li className=' hidden md:flex'>Admin Panel</li>
+        </Link>
+        </ul>
+      )
+    }
 
 </>
 )
 
 return (
+  <>
 <div className=" sticky z-10 w-full top-0 bg-slate-100 shadow-2xl">
     <div className="navbar ">
         <div className="navbar-start ">
@@ -115,12 +117,12 @@ return (
             </ul>
         </div>
         <div className="navbar-end ">
-        <button className="btn btn-ghost btn-circle hidden lg:flex">
+        <button onClick={()=>setOpenMode(!openMode)} className="btn btn-ghost btn-circle ">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
         </button>
           
              
-              <Link href="/cart" tabIndex={0}  role="button" className="btn btn-ghost btn-circle mr-3 hidden lg:flex items-center justify-center ">
+              <Link href="/cart" tabIndex={0}  role="button" className="btn btn-ghost btn-circle mr-3  items-center justify-center ">
                 <div className="indicator">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                   <span className="badge badge-sm indicator-item">{user?.cart?.length || 0}</span>
@@ -128,19 +130,26 @@ return (
               </Link>
             
           
-          <Link href="/whistlist" tabIndex={0}  role="button" className="btn btn-ghost btn-circle mr-3 hidden lg:flex items-center justify-center ">
+          <Link href="/whistlist" tabIndex={0}  role="button" className="btn btn-ghost btn-circle mr-3  items-center justify-center ">
             <div className="indicator">
               <FaHeart  cursor="pointer" size={25} color='red'/>
               <span className="badge badge-sm indicator-item">{whist.length}</span>
             </div>
           </Link>
-            <a className="btn bg-green rounded-full text-white flex items-center gap-2 hover:bg-gray-300">
+            <a className="btn bg-green rounded-full hidden md:flex text-white  items-center gap-2 hover:bg-gray-300">
               <FiPhoneCall />
               Contact
             </a>
         </div>
        </div>
+
   </div>
+       {
+        openMode && (
+          <Searchbar />
+        )
+       }
+       </>
     
 )
 }

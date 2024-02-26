@@ -92,7 +92,7 @@ const DishesComponent = ({item}) => {
     }
 
   return (
-    <div className='w-full mt-3 mb-4 md:mt-0 md:w-[420px] h-[446px] bg-[#ffffff] rounded-lg rounded-tr-[37.5px] relative flex flex-col  '>
+    <div className='w-full mt-3 mb-4 md:mt-0 lg:w-[420px] h-[446px] bg-[#ffffff] rounded-lg rounded-tr-[37.5px] relative flex flex-col  '>
         <div className='w-[87px] h-[75px] bg-green rounded-tr-[37.5px] rounded-bl-[42.5px] flex items-center justify-center absolute right-0'>
             {
                 isClicked?
@@ -118,10 +118,10 @@ const DishesComponent = ({item}) => {
             </div>
         </div>
         
-        <div className=" px-10 flex items-center justify-between">
+        <div className=" px-2 md:px-10 flex items-center justify-between">
             <div>
                 <button onClick={plusClicked} className="bg-green p-2 rounded-md w-10 text-white text-[18px]">+</button>
-                <input className="w-20 h-10 bg-slate-100 p-3 rounded-lg border-none outline-none"  type="number" value={itemQty} name="qty" id="qty" onChange={(e)=>setItemQty(e.target.value)}/>
+                <input className=" w-16 md:w-20 h-10 bg-slate-100 p-3 rounded-lg border-none outline-none"  type="number" value={itemQty} name="qty" id="qty" onChange={(e)=>setItemQty(e.target.value)}/>
                 <button onClick={subsClicked} className="bg-red p-2 rounded-md w-10 text-white text-[18px]">-</button>
             </div>
             <button onClick={addToCart}  className="bg-green p-3 rounded-lg text-white font-[400]">Add to Cart</button>

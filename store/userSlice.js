@@ -5,8 +5,8 @@ const UserSlice=createSlice({
     initialState: '',
     reducers: {
         addUserDetails:(state,actions)=>{
-            console.log(actions.payload)
-            return state=actions.payload
+            state=actions.payload;
+            return state;
         }
     }        
 })

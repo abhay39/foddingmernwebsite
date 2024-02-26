@@ -13,17 +13,17 @@ const Dashboard = () => {
         <div className='mt-4 flex flex-col md:flex-row gap-4 flex-wrap-reverse   justify-between select-none'>
             <div className=' bg-[#00C2FF] w-full md:w-[250px] h-[182px] flex items-center flex-col justify-center text-[2rem] font-bold rounded-lg cursor-pointer'>
                 <h1>ORDERS</h1>
-                <p>{user?.orders?.length}</p>
+                <p>{user?.orders?.length || 0}</p>
             </div>
 
             <div className=' bg-[#FFE605] w-full md:w-[260px] h-[182px] flex items-center flex-col justify-center text-[2rem] font-bold rounded-lg cursor-pointer'>
                 <h1>RESERVATIONS</h1>
-                <p>{user?.reservations?.length}</p>
+                <p>{user?.reservations?.length || 0}</p>
             </div>
 
             <div className=' bg-[#7d74e3] w-full md:w-[250px]  h-[182px] flex items-center flex-col justify-center text-[2rem] font-bold rounded-lg cursor-pointer'>
                 <h1>CART</h1>
-                <p>{user?.cart?.length}</p>
+                <p>{user?.cart?.length || 0}</p>
             </div>
         </div>
 
