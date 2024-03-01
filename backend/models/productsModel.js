@@ -27,10 +27,10 @@ const ProductModel = new mongoose.Schema({
     },
     rating: {
         type: Number,
-        required: true
+        default:0
     },
     addedBy: {
-        type: [],
+        type: String,
         required: true
     }
 },{timestamps:true})

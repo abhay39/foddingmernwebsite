@@ -7,7 +7,8 @@ import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 
 const CartComponent = ({item}) => {
-    console.log(item)
+    
+    const [totalItems,setTotalItems] =useState([]);
 
     const [itemQty,setItemQty]=useState(Number(item.qtyOfItem))
 
@@ -25,10 +26,16 @@ const CartComponent = ({item}) => {
         if(itemQty==1){
             toast.error("Qty must be less than One")
             setItemQty(1)
+            
         }
         else{
             setItemQty(Number(itemQty-1))
         }
+    }
+
+    const getItesmfromlocal=()=>{
+        const localItems=JSON.parse(localStorage.getItem('items'))
+        setTotalItems(localItems);
     }
     
   return (
@@ -45,7 +52,7 @@ const CartComponent = ({item}) => {
             <div className=' w-1/4 flex items-center '>
             <div>
                 <button onClick={plusClicked} className="bg-green  p-2 rounded-md w-[80%] md:w-10 text-white text-sm md:text-[18px]">+</button>
-                <input className="w-20 h-10 bg-slate-100 p-3 rounded-lg border-none text-center outline-none"  type="number" value={itemQty} name="qty" id="qty" onChange={(e)=>setItemQty(e.target.value)}/>
+                <input className="w-20 h-10 bg-slate-100 p-3 rounded-lg border-none  outline-none"  type="number" value={itemQty} name="qty" id="qty" onChange={(e)=>setItemQty(e.target.value)}/>
                 <button onClick={subsClicked} className="bg-red p-2 rounded-md  w-[80%] md:w-10 text-white text-sm md:text-[18px]">-</button>
             </div>
                 

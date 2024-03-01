@@ -1,9 +1,38 @@
+"use client"
 import { menuDishesAll } from '@/assets/listOfDishes'
 import Categories from '@/components/Categories'
 import DishesComponent from '@/components/DishesComponent'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const page = () => {
+  const [listOfSpecialDishes, setListOfSpecialDishes]=useState([])
+  const api=useSelector(item=>item.APIReducer);
+  const [category,setCategory]=useState('All');
+  const [sort,setSort]=useState(1)
+  const [rating,setRating]=useState('');
+
+
+  const getDishes=async()=>{
+    let res = await fetch(`${api}/api/products/listofproducts/${category}/${sort}`);
+    res = await res.json();
+    setListOfSpecialDishes(res)
+  }
+
+  const changeCategory=(item)=>{
+    setCategory(item);
+  }
+  const changeSort=(item)=>{
+    setSort(item);
+  }
+
+  
+
+
+  useEffect(()=>{
+    getDishes()
+  },[category,sort]);
+
   return (
     <>
       <div className=' min-h-screen flex items-center justify-center flex-col'>
@@ -19,15 +48,21 @@ const page = () => {
 
         {/* displaying all the categories */}
       </div>
-      <Categories />
+      <Categories changeCat={changeCategory} changeSort={changeSort}/>
 
       <div className="flex md:mt-4 justify-between flex-wrap">
       {
-        menuDishesAll.map((item,index)=>{
-          return(
-            <DishesComponent key={index} item={item} />
-          )
-        })
+        listOfSpecialDishes.length>0 ? (
+          listOfSpecialDishes.map((item,index)=>{
+            return(
+              <DishesComponent key={index} item={item} />
+            )
+          })
+        ):(
+          <div className=' min-h-screen flex items-center justify-center'>
+            <h1 className=' text-3xl font-bold'>No dishes to shows😒😒😒</h1>
+          </div>
+        )
       }
       </div>
     </>

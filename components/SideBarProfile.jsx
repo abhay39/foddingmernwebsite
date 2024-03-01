@@ -45,7 +45,7 @@ const SideBarProfile = () => {
             width={80}
           />
           <div>
-            <h1 className="font-bold text-[2rem]">
+          <h1 className="font-bold text-[1.5rem]">
               {user?.name?.toUpperCase()}
             </h1>
             <h1>{user?.role}</h1>

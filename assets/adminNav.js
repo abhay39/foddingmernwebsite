@@ -8,6 +8,8 @@ import MyBooking from "@/components/MyBooking";
 import { GrProductHunt } from "react-icons/gr";
 import { TbUsersGroup } from "react-icons/tb";
 import TotalUsers from "@/components/TotalUsers";
+import AddProduct from "@/components/AddProduct";
+import TotalProducts from "@/components/TotalProducts";
 
 export const adminNavs=[
     {
@@ -36,7 +38,7 @@ export const adminNavs=[
         name:"All Products",
         nav:"totalProducts",
         icon:<GrProductHunt />,
-        page:<></>
+        page:<TotalProducts />
     },
     {
         id:96,

@@ -42,11 +42,11 @@ const SideBarProfileForAdmin = () => {
           <Image
             src={user.profilePicture || "https://avatar.iran.liara.run/public/boy?username=aa"}
             alt="profile"
-            height={80}
-            width={80}
+            height={50}
+            width={50}
           />
           <div>
-            <h1 className="font-bold text-[2rem]">
+            <h1 className="font-bold text-[1.5rem]">
               {user?.name?.toUpperCase()}
             </h1>
             <h1>{user?.role}</h1>

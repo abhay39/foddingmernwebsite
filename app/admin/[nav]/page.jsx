@@ -4,7 +4,7 @@ import TotalUsers from '@/components/TotalUsers';
 import React, { useState } from 'react'
 
 const page = ({params}) => {
-  console.log(params)
+  // console.log(params)
   const [selectedNav,setIsSelectedNav]=useState(params.nav || "dashboard")
   
   return (

@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import { MdSlowMotionVideo } from "react-icons/md";
+import "./banner.css";
 
 const Banner = () => {
   return (
     <div className=' flex min-h-screen justify-center flex-col-reverse lg:flex-row items-center gap-5 mt-3'>
 
-      <div className='w-full sm:mt-16 md:w-1/2 text-center lg:text-justify'>
+      <div className='w-full first sm:mt-16 md:w-1/2 text-center lg:text-justify'>
         <h1 className=' text-[30px] md:text-[62px]  w-full font-bold'>
           Dive into Delights Of Delectable
           <span className='text-green'> Food</span>
@@ -23,7 +24,7 @@ const Banner = () => {
         </div>
       </div>
 
-      <div className='w-full md:w-1/2 flex justify-center h-[500px] items-center'>
+      <div className='w-full second md:w-1/2 flex justify-center h-[500px] items-center'>
         <Image src="/Banner.png" alt='banner' height={500} width={500} className='w-[780px]  md:h-[780x] object-cover'/>
       </div>
     </div>

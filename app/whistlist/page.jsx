@@ -41,10 +41,10 @@ const page = () => {
                         return(
                             <div key={index} className='flex items-center shadow-2xl mt-2 mb-2 rounded-2xl'>
                                 <div className=' flex items-center gap-4 w-2/3'>
-                                    <Image src={item.item.images} alt='item' height={100} width={100}/>
+                                    <Image src={item.item.image} alt='item' className=' rounded-full' height={100} width={100}/>
                                     <div>
                                         <p className='font-bold '>{item.item.name}</p>
-                                        <p className=' w-3/4 text-xs'>{item.item.desc}</p>
+                                        <p className=' w-3/4 text-xs'>{item.item.description}</p>
                                     </div>
                                 </div>
 
