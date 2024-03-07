@@ -13,12 +13,12 @@ const AddProduct = ({mode}) => {
   const API=useSelector(item=>item.APIReducer)
   const [pdetails,setPDetails]=useState({
     name:'',
-    price:'',
+    totalPrice:'',
+    discountPrice:'',
     description:'',
     image:'',
     category:'',
-    stock:'',
-    addedBy:user?.name
+    addedBy:user?._id
   })
 
   const handleInputChange=(e)=>{
@@ -26,6 +26,7 @@ const AddProduct = ({mode}) => {
   }
 
   const submit=async()=>{
+    // console.log(pdetails)
       let res= await fetch(`${API}/api/products/addProduct`,{
         method:"POST",
         headers:{
@@ -39,13 +40,15 @@ const AddProduct = ({mode}) => {
         toast.success(res.message);
         setPDetails({
           name:'',
-          price:'',
+          totalPrice:'',
+          discountPrice:'',
           description:'',
           image:'',
           category:'',
           stock:'',
           addedBy:user?.name
         })
+        mode()
       }else{
         toast.error(res.message);
       }
@@ -110,11 +113,24 @@ const AddProduct = ({mode}) => {
           </div>
 
           <div className=" w-full mt-3">
-            <label htmlFor="">Price</label>
+            <label htmlFor="">Total Price</label>
             <br />
             <input
-            name="price"
-            value={pdetails.price}
+            name="totalPrice"
+            value={pdetails.totalPrice}
+              type="number"
+              onChange={handleInputChange}
+              placeholder="Enter price of product"
+              className=" p-2 w-full  rounded-md "
+            />
+          </div>
+
+          <div className=" w-full mt-3">
+            <label htmlFor="">Discount Price</label>
+            <br />
+            <input
+            name="discountPrice"
+            value={pdetails.discountPrice}
               type="number"
               onChange={handleInputChange}
               placeholder="Enter price of product"
@@ -136,18 +152,7 @@ const AddProduct = ({mode}) => {
             </select>
           </div>
 
-          <div className=" w-full mt-3">
-            <label htmlFor="">Quantity</label>
-            <br />
-            <input
-            onChange={handleInputChange}
-              name="stock"
-              value={pdetails.stock}
-              type="number"
-              placeholder="Enter qty of product"
-              className=" p-2 w-full  rounded-md "
-            />
-          </div>
+          
 
           <div className=" w-full mt-3">
             <label htmlFor="">Added by</label>
@@ -155,7 +160,8 @@ const AddProduct = ({mode}) => {
             <input
               onChange={handleInputChange}
               value={user?.name}
-              type="text"
+              type="hidden"
+
               placeholder="Enter name of owner"
               className=" p-2 w-full  rounded-md "
             />

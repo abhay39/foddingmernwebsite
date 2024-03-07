@@ -8,7 +8,7 @@ import { FaFacebook } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { useSelector } from 'react-redux';
 
-const page = () => {
+const SignUpPage = ({mode}) => {
     const url=useSelector(item=>item.APIReducer);
 
     const [formErrors,setFormErrors]=useState({
@@ -21,7 +21,7 @@ const page = () => {
     const [name, setName] = useState('')
     const [password, setPassword] = useState('');
 
-    const handelLogin=async()=>{
+    const handelLogin=async({})=>{
 
     // Basic validation
         if (!email.trim()) {
@@ -77,8 +77,10 @@ const page = () => {
         if(status===200){
             // const token=res.token;
             toast.success(res.message)
-            
-            window.location.href="/";
+            if(!mode()){
+                window.location.href="/login";
+            }
+            mode()
         }else{
             toast.error(res.message)
         }
@@ -136,4 +138,4 @@ const page = () => {
   )
 }
 
-export default page
+export default SignUpPage

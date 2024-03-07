@@ -90,29 +90,36 @@ export const addProduct = async (req, res) => {
   const {
     name,
     description,
-    price,
+    totalPrice,
     image,
     category,
-    stock,
-    rating,
     addedBy
   } = req.body;
 
   try {
-    const product = new Product({
-      name: name,
-      description: description,
-      price: price,
-      image: image,
-      category: category,
-      stock: stock,
-      rating: rating,
-      addedBy: addedBy
-    });
+    const product = new Product(req.body);
     const result = await product.save();
-    res.status(200).json({ message: "Product Added" });
+    res.status(200).json({ message: "Product Added",result:result });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: err.message });
   }
 };
+
+
+export const deleteProduct=async(req,res)=>{
+  try{
+    const {token}=req.params;
+    console.log(token)
+    const result=await Product.findByIdAndDelete(token);
+    if(!result){
+      res.status(400).json({message:"Product not found"});
+    }
+    res.status(200).json({
+      message:"Product Deleted",
+      result:result
+    });
+  }catch(err){
+    res.status(500).json({message:err.message});
+  }
+}

@@ -1,81 +1,109 @@
 "use client"
-import CartComponent from '@/components/CartComponent';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react'
+import { Trash, Heart } from 'lucide-react'
+
+const products = [
+  {
+    id: 1,
+    name: 'Nike Air Force 1 07 LV8',
+    href: '#',
+    price: '₹47,199',
+    originalPrice: '₹48,900',
+    discount: '5% Off',
+    color: 'Orange',
+    size: '8 UK',
+    imageSrc:
+      'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/54a510de-a406-41b2-8d62-7f8c587c9a7e/air-force-1-07-lv8-shoes-9KwrSk.png',
+  },
+  {
+    id: 2,
+    name: 'Nike Blazer Low 77 SE',
+    href: '#',
+    price: '₹1,549',
+    originalPrice: '₹2,499',
+    discount: '38% off',
+    color: 'White',
+    leadTime: '3-4 weeks',
+    size: '8 UK',
+    imageSrc:
+      'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/e48d6035-bd8a-4747-9fa1-04ea596bb074/blazer-low-77-se-shoes-0w2HHV.png',
+  },
+  {
+    id: 3,
+    name: 'Nike Air Max 90',
+    href: '#',
+    price: '₹2219 ',
+    originalPrice: '₹999',
+    discount: '78% off',
+    color: 'Black',
+    imageSrc:
+      'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/fd17b420-b388-4c8a-aaaa-e0a98ddf175f/dunk-high-retro-shoe-DdRmMZ.png',
+  },
+]
 
 const Page = () => {
-  const cart = useSelector((item) => item.CartReducer);
-  const [getCartLength, setGetCartLength] = useState([]);
-const [totalPrice, setTotalPrice] = useState(0);
-const [discount, setDiscountPrice] = useState(0);
-const [deliveryPrice, setDeliveryPrice] = useState(0);
-const [finalPrice, setFinalPrice] = useState(0);
-
-useEffect(() => {
-  const getLengths = localStorage.getItem('carts');
-  setGetCartLength(JSON.parse(getLengths));
-}, []);
-
-useEffect(() => {
-  // Calculate total price using reduce
-  const totalPriceCalculation = getCartLength?.reduce(
-    (acc, item) => acc + item.priceOfItem * item.qtyOfItem,
-    0
-  );
-  setTotalPrice(totalPriceCalculation || 0);
-
-  // Calculate discount based on total price
-  const discountAmount = (5 / 100) * totalPrice;
-  setDiscountPrice(discountAmount || 0);
-}, [getCartLength, totalPrice]);
-
-useEffect(() => {
-  // Calculate delivery price based on discount
-  const deliveryAmount = (4 / 100) * (totalPrice - discount);
-  setDeliveryPrice(deliveryAmount.toFixed(2) || 0);
-}, [discount]);
-
-useEffect(() => {
-  // Calculate final price based on discount and deliveryPrice
-  setFinalPrice(totalPrice - discount - deliveryPrice || 0);
-}, [discount, deliveryPrice]);
 
   return (
-    <div className='min-h-screen'>
-      <h1 className='text-3xl text-center font-bold mt-4'>Your Cart</h1>
-      <br />
-      <br />
-      <div>
-        <div className='flex items-center'>
-          <p className='font-bold w-3/4'>Item</p>
-          <p className='font-bold w-1/4'>Price</p>
-          <p className='font-bold w-1/4'>Qty</p>
-          <p className='font-bold w-1/4'>Total</p>
-        </div>
-        <hr className='border-gray-300 border-[1px]' />
-
-        {getCartLength?.length > 0 ? (
-          getCartLength?.map((item, index) => (
-            <CartComponent key={index} item={item} />
-          ))
-        ) : (
-          <div className='flex h-max items-center justify-center flex-col'>
-            <h1>No items in cart</h1>
-          </div>
-        )}
+    <div className="mx-auto flex w-full flex-col space-y-4 p-6 px-2 sm:p-10 sm:px-2">
+      <h2 className="text-3xl font-bold">Your cart</h2>
+      <p className="mt-3 text-sm font-medium text-gray-700">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum eius repellat ipsam, sit
+        praesentium incidunt.
+      </p>
+      <ul className="flex flex-col divide-y divide-gray-200">
+        {products.map((product) => (
+          <li key={product.id} className="flex flex-col py-6 sm:flex-row sm:justify-between">
+            <div className="flex w-full space-x-2 sm:space-x-4">
+              <img
+                className="h-20 w-20 flex-shrink-0 rounded object-contain outline-none dark:border-transparent sm:h-32 sm:w-32"
+                src={product.imageSrc}
+                alt={product.name}
+              />
+              <div className="flex w-full flex-col justify-between pb-4">
+                <div className="flex w-full justify-between space-x-2 pb-2">
+                  <div className="space-y-1">
+                    <h3 className="text-lg font-semibold leading-snug sm:pr-8">{product.name}</h3>
+                    <p className="text-sm">{product.color}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-lg font-semibold">{product.price}</p>
+                  </div>
+                </div>
+                <div className="flex divide-x text-sm">
+                  <button type="button" className="flex items-center space-x-2 px-2 py-1 pl-0">
+                    <Trash size={16} />
+                    <span>Remove</span>
+                  </button>
+                  <button type="button" className="flex items-center space-x-2 px-2 py-1">
+                    <Heart size={16} />
+                    <span>Add to favorites</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div className="space-y-1 text-right">
+        <p>
+          Total amount:
+          <span className="font-semibold"> ₹48,967</span>
+        </p>
       </div>
-
-      <div className=' flex bg-slate-600 rounded-md  items-end flex-col justify-end  p-6 text-white'>
-        <div className=' items-end justify-end flex flex-col'>
-            <h1 className=' flex text-[1.2rem]'>Total Price: Rs. <p className=' text-red font-bold'>{totalPrice}</p></h1>
-            <h1 className=' flex text-[1.4rem]'>Discount: Rs. <p className=' text-red font-bold'>{discount}</p></h1>
-            <h1 className=' flex text-[1.4rem]'>Delivery: Rs. <p className=' text-red font-bold'>{deliveryPrice}</p></h1>
-            <h1 className=' flex text-[1.4rem]'>Final Price: Rs. <p className=' text-red font-bold'>{finalPrice}</p></h1>
-        </div>
-        <button className=' bg-green text-white text-2xl p-4 rounded-lg font-bold mt-3'>Place Order</button>
+      <div className="flex justify-end space-x-4">
+        <button
+          type="button"
+          className="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+        >
+          Back to shop
+        </button>
+        <button
+          type="button"
+          className="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+        >
+          Checkout
+        </button>
       </div>
-
-
     </div>
   );
 };

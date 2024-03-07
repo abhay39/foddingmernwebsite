@@ -43,8 +43,6 @@ export const login=async(req,res)=>{
             res.status(400).json({message: "Password does not match"});
             return;
         }
-
-
         const token=jwt.sign(
             {"id":checkIfUserExists._id},
             process.env.JWT_SECRET,{expiresIn:'7d'}
@@ -59,24 +57,3 @@ export const login=async(req,res)=>{
     }
 }
 
-export const getUserDetails = async(req, res) =>{
-    const {token}=req.params;
-
-    try{
-        const verifyUser=jwt.verify(token, process.env.JWT_SECRET);
-
-        if(!verifyUser){
-            res.status(400).json({message: "Invalid token"});
-            return;
-        }
-        const isUser=(await User.findById(verifyUser.id));
-        if(!isUser){
-            res.status(400).json({message: "User does not exist"});
-            return;
-        }
-        res.status(200).json(isUser);
-    }catch(err){
-        res.status(400).json({message: err.message});
-        console.log(err);
-    }
-}

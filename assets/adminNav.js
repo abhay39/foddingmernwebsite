@@ -19,13 +19,7 @@ export const adminNavs=[
         icon:<MdDashboard />,
         page:<Dashboard />
     },
-    {
-        id:69,
-        name:"Profile",
-        nav:"profile",
-        icon:<CgProfile />,
-        page:<></>
-    },
+    
     {
         id:28,
         name:"All Users",
@@ -42,23 +36,23 @@ export const adminNavs=[
     },
     {
         id:96,
-        name:"AllReservations",
-        nav:"reservations",
+        name:"All Orders",
+        nav:"allOrder",
         icon:<MdDateRange />,
         page:<Reservations />
     },
     {
         id:68,
-        name:"All Orders",
-        nav:"allOrders",
+        name:"All Payments",
+        nav:"allPayments",
         icon:<MdDateRange />,
         page:<FaFirstOrderAlt />
     },
    
     {
         id:15,
-        name:"All Bookings",
-        nav:"mybookings",
+        name:"All Carts",
+        nav:"allCarts",
         icon:<FaSave />,
         page:<MyBooking />
     },

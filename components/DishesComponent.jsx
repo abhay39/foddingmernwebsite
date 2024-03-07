@@ -117,25 +117,18 @@ const DishesComponent = ({ item }) => {
           {item.name}
         </h1>
         <span className="text-[14px] mt-1 md:text-[16px] text-[#555555] font-[700]">
-          {item.description}
+          {item.description.slice(0,80)}
         </span>
         <div className="flex mt-1 justify-between items-center">
           <span className="text-[14px]  md:text-[20px] text-[#555555] font-[700]">
             <span className="text-red">Rs. </span>
-            {item.price}
+            {item.totalPrice}
           </span>
 
-          
-
-          <span className="text-[14px]  md:text-[20px] text-[#555555] font-[700] flex flex-row items-center">
-            <FaStar color="#FFE605" />
-            {item.rating}
-          </span>
         </div>
       </div>
 
 
-      {item.stock > 0 &&
             
       <div className=" px-2 md:px-10 flex items-center justify-between">
         <div>
@@ -167,7 +160,7 @@ const DishesComponent = ({ item }) => {
           Add to Cart
         </button>
       </div>
-      }
+      
     </div>
   );
 };

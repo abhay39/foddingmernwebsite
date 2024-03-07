@@ -40,8 +40,8 @@ const CartComponent = ({item}) => {
     
   return (
         <div className='flex items-center shadow-2xl mt-2 mb-2 rounded-2xl py-2'>
-            <div className=' flex items-center text-center md:text-left flex-col md:flex-row gap-4 w-3/4'>
-                <Image src={item.imgOfItem} alt='item' height={100} width={100} className=' h-[50px] w-[50px] md:w-[100px] md:h-[100px]'/>
+            <div className=' flex items-center text-center md:text-left flex-col md:flex-row gap-4 w-3/4 p-2'>
+                <Image src={item.imgOfItem} alt='item' height={100} width={100} className=' h-[50px] w-[50px] rounded-full md:w-[100px] md:h-[100px]'/>
                 <div>
                     <p className='font-bold text-xs md:text-xl '>{item.nameOfItem}</p>
                     <p className='  hidden text-sm md:block'>{item.descOfItem}</p>

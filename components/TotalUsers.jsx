@@ -1,13 +1,17 @@
 "use client";
+import SignUpPage from "@/app/register/page";
 import Image from "next/image";
 import { useLayoutEffect, useState } from "react";
-import { MdDeleteForever } from "react-icons/md";
+
 import { useSelector } from "react-redux";
 
 const TotalUsers = () => {
   const api = useSelector(item => item.APIReducer);
 
   const [getTotalUsers, setGetTotalUsers] = useState([]);
+  const [openMode, setOpenMode] = useState(false);
+  const [nameToBeSearched, setNameToBeSearched] = useState('')
+  const [searched,setSearched]=useState([]);
 
   const fetchAPI = async () => {
     let res = await fetch(`${api}/api/users/totalUsers`);
@@ -20,65 +24,241 @@ const TotalUsers = () => {
     fetchAPI();
   }, []);
 
+  const changeMode=()=>{
+    setOpenMode(!openMode)
+  }
+
+  const handleChange=()=>{
+    const filteredUsers=getTotalUsers.filter(user=>user.name.toLowerCase().includes(nameToBeSearched.toLowerCase()))
+    setSearched(filteredUsers)
+    // console.log(filteredUsers)
+  }
+
+
   return (
-    <div>
-      <div className=" bg-[#90BD95] p-4 rounded-md">
-        <h1 className="text-[25px] text-center md:text-[50px] font-[700] text-white">
-          List of Users
-        </h1>
-      </div>
+    <div div className=" min-h-screen">
+      <section className=" min-h-screen w-full  px-4 py-4">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between md:space-y-0">
+          <div>
+            <h2 className="text-3xl font-semibold">Total Users</h2>
+            <p className="mt-1 text-sm text-gray-700">
+              This is a list of all Users. You can add new products, edit or delete existing
+              ones.
+            </p>
+          </div>
 
-      <div className=" flex py-3 px-3 items-center w-full justify-between">
-        <p className=" font-bold md:text-[1.5rem] text-black mt-4">
-          Total Users: {getTotalUsers.length}
-        </p>
-      </div>
+          
 
-      <div className=" bg-[#90BD95] text-white h-[72px] flex px-4 rounded-lg items-center w-full font-bold">
-        <span className=" w-1/5 hidden md:block md:w-1/5 text-center">
-          USER IMAGE
-        </span>
-        <span className=" w-1/4 md:w-1/5 text-center ">USER NAME</span>
-        <span className=" w-1/4 md:w-1/5 text-center">USER EMAIL</span>
-        <span className=" w-1/4 md:w-1/5 text-center">ROLE</span>
-        <span className=" w-1/4 md:w-1/5 text-center">ACTIONS</span>
-      </div>
+          <div>
+            <button
+              onClick={()=>{
+                setOpenMode(!openMode)
+              }}
+              className="rounded-md bg-black px-3 mt-3 md: py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            >
+              Add new user
+            </button>
+          </div>
+        </div>
 
-      <div>
-        {getTotalUsers.length > 0
-          ? getTotalUsers.map(item => {
-              return (
-                <div key={item._id}>
-                  <div className="   flex px-4 rounded-lg items-center w-full mt-4 mb-2">
-                    <div className=" w-1/5 md:w-1/5  items-center justify-center hidden md:flex">
-                      <Image
-                        alt="item"
-                        src={ item.profilePicture || "/Egg salad.png"}
-                        width={50}
-                        height={50}
-                      />
-                    </div>
-                    <span className="w-1/4 md:w-1/5  text-center">
-                      {item.name}
-                    </span>
-                    <span className=" w-1/4 md:w-1/5 text-center">
-                      {item.email}
-                    </span>
-                    <span className="w-1/4 md:w-1/5 text-center">
-                      {item.role.toUpperCase()}
-                    </span>
-                    <div className=" flex items-center justify-center  w-1/4 md:w-1/5">
-                      <button className="bg-[#D80B0B] text-center p-2 rounded-md text-white">
-                        <MdDeleteForever />
-                      </button>
-                    </div>
-                  </div>
-                  <hr className=" border-[1px] border-slate-200" />
-                </div>
-              );
-            })
-          : <h1>No Users in this website yet</h1>}
+        <div className="flex w-full mt-2 items-center space-x-2 md:w-1/3">
+          <input
+            className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+            type="text"
+            placeholder="Name of person"
+            onChange={(e)=>{
+              setNameToBeSearched(e.target.value);
+              handleChange()
+            }}
+          ></input>
+          <button
+            onClick={handleChange}
+            className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+          >
+            Search
+          </button>
+        </div>
+
+        {
+          searched?.length > 0 ? (
+            <>
+
+<div className="mt-6 flex flex-col">
+          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+              <div className="overflow-hidden border border-gray-200 md:rounded-lg">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr className="divide-x divide-gray-200">
+                      <th
+                        scope="col"
+                        className="px-4 sm:w-1/3 py-3.5 text-left text-sm font-normal text-gray-500"
+                      >
+                        <span>Users</span>
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-12 w-[50px] py-3.5 text-left text-sm font-normal text-gray-500"
+                      >
+                        Role
+                      </th>
+
+                      
+
+                      <th scope="col" className=" sm:w-1/3  px-4 py-3.5">
+                        <span className="sr-only">Action</span>
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody className="divide-y divide-gray-200 bg-white">
+                    {getTotalUsers.map((person) => (
+                      <tr key={person.name} className="divide-x divide-gray-200">
+                        <td className="whitespace-nowrap px-4  py-4">
+                          <div className="flex items-center md:w-[200px]">
+                            <div className="h-10  hidden md:block w-10 flex-shrink-0">
+                              <Image
+                                className="h-10 w-10   rounded-full object-cover"
+                                src={person.profilePicture}
+                                alt=""
+                                width={40}
+                                height={40}
+                              />
+                            </div>
+                            <div className=" ml-0 md:ml-4 ">
+                              <div className="text-sm font-medium  text-gray-900">{person?.name.slice(0,10)}</div>
+                              <div className="text-sm font-medium hidden md:block text-gray-900">{person?.email}</div>
+                              
+                            </div>
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-12 py-4">
+                          <div className="text-sm text-gray-900">{person.role}</div>
+                        </td>
+                        
+                        
+                        <td className="whitespace-nowrap px-4 py-4 text-right text-sm gap-4 font-medium">
+                          <button  className=" text-indigo-600">
+                            Edit
+                          </button>
+                          <br />
+                          <button onClick={()=>{
+                            deleteItem(person._id)
+                          }} className=" text-red ml-3">
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+            </>
+          ) :(null)
+        }
+
+        <div className="mt-6 flex flex-col">
+          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+              <div className="overflow-hidden border border-gray-200 md:rounded-lg">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr className="divide-x divide-gray-200">
+                      <th
+                        scope="col"
+                        className="px-4 py-3.5 text-left text-sm font-normal text-gray-500"
+                      >
+                        <span>Users</span>
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-12 py-3.5 text-left text-sm font-normal text-gray-500"
+                      >
+                        Role
+                      </th>
+
+                      
+
+                      <th scope="col" className=" action px-4 py-3.5">
+                        <span className="sr-only">Action</span>
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody className="divide-y divide-gray-200 bg-white">
+                    {getTotalUsers.map((person) => (
+                      <tr key={person.name} className="divide-x divide-gray-200">
+                        <td className="whitespace-nowrap px-4  py-4">
+                          <div className="flex items-center md:w-[200px]">
+                            <div className="h-10  hidden md:block w-10 flex-shrink-0">
+                              <Image
+                                className="h-10 w-10   rounded-full object-cover"
+                                src={person.profilePicture}
+                                alt=""
+                                width={40}
+                                height={40}
+                              />
+                            </div>
+                            <div className="ml-4 ">
+                              <div className="text-sm font-medium text-gray-900">{person?.name}</div>
+                              <div className="text-sm font-medium hidden md:block text-gray-900">{person?.email}</div>
+                              
+                            </div>
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-12 py-4">
+                          <div className="text-sm text-gray-900">{person.role}</div>
+                        </td>
+                        
+                        
+                        <td className="whitespace-nowrap px-4 py-4 text-right text-sm gap-4 font-medium">
+                          <button  className=" text-indigo-600">
+                            Edit
+                          </button>
+                          <br />
+                          <button onClick={()=>{
+                            deleteItem(person._id)
+                          }} className=" text-red ml-3">
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-4 w-full border-gray-300">
+          <div className="mt-2 flex items-center justify-end">
+            <div className="space-x-2">
+              <button
+                type="button"
+                className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >
+                &larr; Previous
+              </button>
+              <button
+                type="button"
+                className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >
+                Next &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    {openMode && (
+      <div className="top-0 z-50 min-h-screen absolute w-full  left-0 flex items-center justify-center bg-slate-200 p-6">
+        <SignUpPage  mode={changeMode}/>
       </div>
+    )}
     </div>
   );
 };

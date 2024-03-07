@@ -4,16 +4,18 @@ import TotalUsers from '@/components/TotalUsers';
 import React, { useState } from 'react'
 
 const page = ({params}) => {
-  // console.log(params)
+ 
+
   const [selectedNav,setIsSelectedNav]=useState(params.nav || "dashboard")
   
+  
   return (
-    <div>
+    <div className=' min-h-screen'>
       {
         adminNavs.map((item,index)=>{
           if(item.nav===selectedNav){
             return(
-              <div key={item.id}>
+              <div className=' min-h-screen' key={index}>
                 {item.page}
               </div>
             )

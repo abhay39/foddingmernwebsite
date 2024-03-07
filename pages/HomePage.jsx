@@ -21,11 +21,13 @@ const HomePage = () => {
     setToken(token)
 
     const getUserDetails=async()=>{
-      let res=await fetch(`${url}/api/auth/${token}`);
+      let res=await fetch(`${url}/api/users/getUser/${token}`);
       res= await res.json();
       dispatch(userActions.addUserDetails(res))
     }
-    getUserDetails()
+    if(token){
+      getUserDetails()
+    }
   },[])
 
   return (
