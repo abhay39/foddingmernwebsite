@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
 import NextTopLoader from 'nextjs-toploader';
 import StartingPage from "@/hooks/StartingPage";
+import AuthProvider from "@/hooks/auth";
 
 const inter = Inter({ subsets: ["latin"],weight:["400",'500','600','700','800','900'] });
 
@@ -14,31 +15,34 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  
   return (
     <html lang="en">
       <body className={`${inter.className}  w-full bg-slate-100 min-h-screen `}>
-        <StartingPage>
-          <Toaster position="top-center" />
-          <NextTopLoader
-          color="#2299DD"
-          initialPosition={0.08}
-          crawlSpeed={200}
-          height={3}
-          crawl={true}
-          showSpinner={true}
-          easing="ease"
-          speed={200}
-          shadow="0 0 10px #2299DD,0 0 5px #2299DD" />
-          <div className=" sticky top-0 z-20">
-            <Navbar />
-          </div>
-            <div className="p-3 md:px-10">
-            {children}
+        <AuthProvider>
+          <StartingPage>
+            <Toaster position="top-center" />
+            <NextTopLoader
+            color="#2299DD"
+            initialPosition={0.08}
+            crawlSpeed={200}
+            height={3}
+            crawl={true}
+            showSpinner={true}
+            easing="ease"
+            speed={200}
+            shadow="0 0 10px #2299DD,0 0 5px #2299DD" />
+            <div className=" sticky top-0 z-20">
+              <Navbar />
             </div>
-          <div>
-            <Footer />
-          </div>
-        </StartingPage>
+              <div className="p-3 md:px-10">
+              {children}
+              </div>
+            <div>
+              <Footer />
+            </div>
+          </StartingPage>
+        </AuthProvider>
         </body>
     </html>
   );

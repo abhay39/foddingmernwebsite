@@ -9,7 +9,7 @@ const PaymentSchema=new mongoose.Schema({
     source:{
         type:String,
         required:true,
-        enum:['esewa'],
+        enum:['esewa','khalti'],
         default:'esewa'
     },
     source_payment_id:{
@@ -23,6 +23,10 @@ const PaymentSchema=new mongoose.Schema({
     },
     order:{
         type:mongoose.Schema.Types.ObjectId,
+        required:true
+    },
+    status:{
+        type:String,
         required:true
     }
 },{timestamps:true})

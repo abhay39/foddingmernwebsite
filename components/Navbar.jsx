@@ -3,20 +3,23 @@ import { CartActions } from '@/store/cartSlice';
 import Cookies from 'js-cookie';
 import Image from 'next/image'
 import Link from 'next/link';
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { FaHeart } from 'react-icons/fa';
 import { FiPhoneCall } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
 import Searchbar from './Searchbar';
+import { AuthContext } from '@/hooks/auth';
 
 const Navbar = () => {
-  const whist=useSelector(item=>item.WishlistReducer);
-  const user=useSelector(item=>item.UserReducer);
+  const url=process.env.API;
+  const {user,logout}=useContext(AuthContext)
   const [isToken,setIsToken]=useState('');
   const [openMode,setOpenMode] = useState(false)
   
 
-  const [getCartLength,setGetCartLength]=useState([]);
+  const [getCartLength,setGetCartLength]=useState('');
+
+
   
   
   
@@ -27,16 +30,21 @@ const Navbar = () => {
     }else{
       setIsToken('');
     }
-    const getLengths=localStorage.getItem('carts');
-    setGetCartLength(JSON.parse(getLengths));
+
   }, []);
+
+  useEffect(()=>{
+    const getCart=async()=>{
+      let res= await fetch(`${url}/api/carts/user/totalCarts/${user?._id}`)
+      res= await res.json();
+      setGetCartLength(res)
+    }
+    if(user && user._id){
+      getCart();
+    }
+  },[user])
   
-  const handleLogout=async()=>{
-    Cookies.remove("token");
-    setIsToken('');
-    window.location.reload();
-  }
-  
+  // console.log(getCartLength)
 
 const navItems=(
 <>
@@ -72,7 +80,7 @@ const navItems=(
                 <ul className="p-2">
                     <li><Link href="/profile">Profile</Link></li>
                   
-                    <li><button onClick={handleLogout}>Logout</button></li>
+                    <li><button onClick={logout}>Logout</button></li>
                 </ul>
             </details>
           </li>
@@ -130,7 +138,7 @@ return (
               <Link href="/cart" tabIndex={0}  role="button" className="btn btn-ghost btn-circle mr-3  items-center justify-center ">
                 <div className="indicator">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                  <span className="badge badge-sm indicator-item">{getCartLength?.length || 0}</span>
+                  <span className="badge badge-sm indicator-item">{getCartLength?.products?.length || 0}</span>
                 </div>
               </Link>
             
@@ -138,7 +146,7 @@ return (
           <Link href="/whistlist" tabIndex={0}  role="button" className="btn btn-ghost btn-circle mr-3  items-center justify-center ">
             <div className="indicator">
               <FaHeart  cursor="pointer" size={25} color='red'/>
-              <span className="badge badge-sm indicator-item">{whist.length}</span>
+              <span className="badge badge-sm indicator-item">{0}</span>
             </div>
           </Link>
             <a className="btn bg-green rounded-full hidden md:flex text-white  items-center gap-2 hover:bg-gray-300">

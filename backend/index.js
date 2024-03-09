@@ -3,6 +3,9 @@ import dotenv from 'dotenv';
 import userAuth from './routes/UserRoute.js';
 import totalUsers from './routes/TotalUserRoutes.js';
 import productRoute from './routes/ProductRoutes.js';
+import orderRoutes from './routes/OrderRoutes.js';
+import cartRoutes from './routes/CartRoutes.js';
+import paymentRoutes from './routes/PaymentRoutes.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
@@ -29,8 +32,11 @@ app.get('/',(req,res)=>{
 
 app.use("/api/auth",userAuth);
 app.use("/api/users",totalUsers)
-
 app.use("/api/products",productRoute)
+app.use("/api/orders",orderRoutes)
+app.use("/api/carts",cartRoutes)
+app.use("/api/payments",paymentRoutes)
+
 
 await connectMongo()
 app.listen(PORT,()=>{

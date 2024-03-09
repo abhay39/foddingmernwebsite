@@ -10,6 +10,9 @@ import { TbUsersGroup } from "react-icons/tb";
 import TotalUsers from "@/components/TotalUsers";
 import AddProduct from "@/components/AddProduct";
 import TotalProducts from "@/components/TotalProducts";
+import TotalOrders from "@/components/TotalOrders";
+import TotalCarts from "@/components/TotalCarts";
+import TotalPayments from "@/components/TotalPayments";
 
 export const adminNavs=[
     {
@@ -39,14 +42,14 @@ export const adminNavs=[
         name:"All Orders",
         nav:"allOrder",
         icon:<MdDateRange />,
-        page:<Reservations />
+        page:<TotalOrders />
     },
     {
         id:68,
         name:"All Payments",
         nav:"allPayments",
         icon:<MdDateRange />,
-        page:<FaFirstOrderAlt />
+        page:<TotalPayments />
     },
    
     {
@@ -54,7 +57,7 @@ export const adminNavs=[
         name:"All Carts",
         nav:"allCarts",
         icon:<FaSave />,
-        page:<MyBooking />
+        page:<TotalCarts />
     },
 
 ]

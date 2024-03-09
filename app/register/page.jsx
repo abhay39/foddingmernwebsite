@@ -1,15 +1,11 @@
 "use client"
-import Cookies from 'js-cookie';
-import Link from 'next/link';
+
 import { useState } from 'react'
 import {toast} from 'react-hot-toast';
-import { FaGithub, FaGoogle } from 'react-icons/fa';
-import { FaFacebook } from "react-icons/fa6";
-import { FcGoogle } from "react-icons/fc";
-import { useSelector } from 'react-redux';
+
 
 const SignUpPage = ({mode}) => {
-    const url=useSelector(item=>item.APIReducer);
+    const url=process.env.API;
 
     const [formErrors,setFormErrors]=useState({
         emailError:'',

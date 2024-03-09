@@ -8,6 +8,9 @@ const nextConfig = {
       },
       images: {
         domains: ['avatar.iran.liara.run','res.cloudinary.com'],
+      },
+      env:{
+        API:"http://localhost:8000"
       }
 };
 

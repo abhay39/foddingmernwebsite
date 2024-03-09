@@ -1,8 +1,8 @@
 .first{
-    animation: loaders 3s ease-in-out;
+    animation: loaders 2s ease-in-out;
 }
 .second{
-    animation: secondLoader 3s ease-in-out;
+    animation: secondLoader 2s ease-in-out;
 }
 
 @keyframes loaders{
@@ -24,14 +24,14 @@
 }
 @keyframes secondLoader{
     0%{
-        transform: translateX(200px);
+        transform: translateX(400px);
     }
     25%{
-        transform: translateX(100px);
+        transform: translateX(200px);
 
     }
     50%{
-        transform: translateX(50px);
+        transform: translateX(10px);
     }
    
     100%{

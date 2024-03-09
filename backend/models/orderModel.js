@@ -7,7 +7,7 @@ const orderModel = new mongoose.Schema(
         ref:"User",
         required:true
     },
-    payment_method:{
+    paymentMethod:{
         type:String,
         required:true,
         default:'khalti'
@@ -28,7 +28,6 @@ const orderModel = new mongoose.Schema(
     ],
     status:{
         type:String,
-        required:true,
         enum:['created','paid and processing','shipping','delivered'],
         default:'created'
     },
@@ -38,7 +37,15 @@ const orderModel = new mongoose.Schema(
     },
     address:{
         type:String,
-        // required:true
+        required:true
+    },
+    fullName:{
+        type:String,
+        required:true
+    },
+    contactNumber:{
+        type:Number,
+        required:true
     }
   },
   { timestamps: true }

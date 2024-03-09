@@ -1,16 +1,20 @@
 "use client";
+import { AuthContext } from "@/hooks/auth";
 import { CartActions } from "@/store/cartSlice";
 import { WhistListActions } from "@/store/whistListSlice";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { FaRegHeart, FaHeart, FaStar } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
 const DishesComponent = ({ item }) => {
+
+  const url=process.env.API;
   const dispatch = useDispatch();
   const wist = WhistListActions;
-  const cart = CartActions;
+  const {user}=useContext(AuthContext)
+
 
   const [isClicked, setIsClicked] = useState(false);
   const [itemQty, setItemQty] = useState(1);
@@ -60,31 +64,28 @@ const DishesComponent = ({ item }) => {
     toast.success("Item added to whistlist!");
   };
 
-  const addToCart = () => {
-    const data = {
-      idofItem: item._id,
-      imgOfItem: item.image,
-      nameOfItem: item.name,
-      priceOfItem: Number(item.price),
-      ratingOfItem: item.rating,
-      descOfItem: item.description,
-      qtyOfItem: Number(itemQty)
-    };
-
-    dispatch(cart.addToCart(data));
-    toast.success("Item Added to Cart");
+  const addToCart =async () => {
+    console.log(item)
+    const prod=[
+      {
+        product:item._id,
+        quantity:itemQty,
+      }
+    ]
+      let res=await fetch(`${url}/api/carts/user/createCart`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          product:prod,
+          user:user._id
+        })
+      })
+      res=await res.json()
+      toast.success(res.message)
   };
 
-  const removeFromCart = () => {
-    // const data={
-    //     item:item
-    // }
-    // const data={
-    //     idOfItem:id,
-    // }
-    dispatch(cart.removeFromCart(item));
-    toast.success("Item Added to Cart");
-  };
 
   return (
     <div className={`w-full mt-3 mb-4 md:mt-0 lg:w-[420px] h-[446px] bg-[#ffffff] rounded-lg rounded-tr-[37.5px] relative flex flex-col  ${item.stock == 0 ? "opacity-65 select-none cursor-none" :"opacity-100"} `}>

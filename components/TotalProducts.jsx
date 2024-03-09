@@ -6,13 +6,13 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 
 const TotalProducts = () => {
-  const api = useSelector(item => item.APIReducer);
+  const url=process.env.API;
 
   const [getTotalProduct, setGetTotalProduct] = useState([]);
   const [openMode, setOpenMode] = useState(false);
 
   const fetchAPI = async () => {
-    let res = await fetch(`${api}/api/products/listofproducts`);
+    let res = await fetch(`${url}/api/products/listofproducts`);
     res = await res.json();
     setGetTotalProduct(res);
   };

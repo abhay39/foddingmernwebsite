@@ -13,7 +13,7 @@ const LeftSideNavabar = () => {
     const user=useSelector(item=>item.UserReducer);
 
     const [tokens,setToken]=useState('');
-    const url=useSelector(item=>item.APIReducer);
+    const url=process.env.API;
     const dispatch=useDispatch();
     const userActions=UserActions;
 

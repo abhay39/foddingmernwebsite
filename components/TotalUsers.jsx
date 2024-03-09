@@ -6,7 +6,7 @@ import { useLayoutEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const TotalUsers = () => {
-  const api = useSelector(item => item.APIReducer);
+  const url=process.env.API;
 
   const [getTotalUsers, setGetTotalUsers] = useState([]);
   const [openMode, setOpenMode] = useState(false);
@@ -14,7 +14,7 @@ const TotalUsers = () => {
   const [searched,setSearched]=useState([]);
 
   const fetchAPI = async () => {
-    let res = await fetch(`${api}/api/users/totalUsers`);
+    let res = await fetch(`${url}/api/users/totalUsers`);
     res = await res.json();
 
     setGetTotalUsers(res);

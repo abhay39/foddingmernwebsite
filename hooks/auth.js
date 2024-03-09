@@ -1,55 +1,52 @@
-import GoogleProvider from 'next-auth/providers/google';
-import FacebookProvider from 'next-auth/providers/facebook';
-import Github from "next-auth/providers/github";
+"use client"
+import Cookies from 'js-cookie';
+import {createContext, useState} from 'react';
+import toast from 'react-hot-toast';
 
-import User from '@/app/api/models/user.js';
-import { connectMongo } from '@/backend';
+export const AuthContext=createContext()
 
 
-export const authOptions = {
-    providers:[
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret:process.env.GOOGLE_CLIENT_SECRET,
-        }),
-        Github({
-            clientId:process.env.GITHUB_CLIENT_ID,
-            clientSecret:process.env.GITHUB_CLIENT_SECRET,
-        }),
-      ],
-      callbacks:{
-        async session({session}){
-          await connectMongo();
-          const getUser=await User.findOne({
-            email: session.user.email
-          })
-          
-          return getUser;
-        },
-    
-        async signIn({profile}){
-          // console.log(profile)
-          try{
-            await connectMongo();
-            const user=await User.findOne({
-              email:profile.email
-            })
-            if(user){
-              return user
-            }else{
-              const newUser=new User({
-                email:profile.email,
-                name:profile.name,
-                password:profile.password
-                // imageURL:profile.picture
-              })
-              await newUser.save()
-              return newUser
-            }
-          }catch(e) {
-            console.log(e)
-          }
-        }
-      },
-    secret: process.env.NEXTAUTH_SECRETE, 
+const AuthProvider=({children})=>{
+
+  const [isAuthenticated,setIsAuthenticated]=useState(false)
+  const [user,setUser]=useState(null)
+
+  const login=(userData)=>{
+      Cookies.set('token',userData.token)
+      setIsAuthenticated(true)
+      setUser(userData.user)
+  }
+
+  const setIsAuthenticatedWhenLoggedIn=()=>{
+    setIsAuthenticated(true)
+  }
+
+  const setUserValues=(userData)=>{
+      setUser(userData)
+      setIsAuthenticated(true)
+  }
+
+  const logout=()=>{
+      Cookies.remove('token')
+      toast.success("Logout Success")
+      setIsAuthenticated(false)
+      setUser(null)
+  }
+
+  const updatedValues={
+    isAuthenticated,
+    user,
+    login,
+    logout,
+    setUserValues,
+    setIsAuthenticatedWhenLoggedIn
+  }
+
+  return(
+    <AuthContext.Provider value={updatedValues}>
+      {children}
+    </AuthContext.Provider>
+  )
 }
+
+export default AuthProvider

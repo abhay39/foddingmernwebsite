@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const SideBarProfile = () => {
   const [tokens,setToken]=useState('');
   const router=useRouter();
-  const url=useSelector(item=>item.APIReducer);
+  const url=process.env.API;
   const dispatch=useDispatch();
   const user=useSelector(item=>item.UserReducer);
   const userActions=UserActions;

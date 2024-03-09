@@ -4,7 +4,7 @@ import "./banner.css";
 
 const Banner = () => {
   return (
-    <div className=' flex min-h-screen justify-center flex-col-reverse lg:flex-row items-center gap-5 mt-3'>
+    <div className=' flex min-h-screen overflow-hidden justify-center flex-col-reverse lg:flex-row items-center gap-5 mt-3'>
 
       <div className='w-full first sm:mt-16 md:w-1/2 text-center lg:text-justify'>
         <h1 className=' text-[30px] md:text-[62px]  w-full font-bold'>

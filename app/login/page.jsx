@@ -1,15 +1,16 @@
 "use client"
+import { AuthContext } from '@/hooks/auth';
 import Cookies from 'js-cookie';
 
 import Link from 'next/link';
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { toast } from 'react-hot-toast';
 
 import { useSelector } from 'react-redux';
 
 
 const page = () => {
-   const url=useSelector(item=>item.APIReducer);
+   const url=process.env.API;
 
     const [formErrors,setFormErrors]=useState({
         emailError:'',
@@ -18,6 +19,8 @@ const page = () => {
     const [email, setEmail] = useState('');
     
     const [password, setPassword] = useState('');
+
+    const {setIsAuthenticatedWhenLoggedIn} =useContext(AuthContext)
 
     const handelLogin=async()=>{
 
@@ -69,6 +72,7 @@ const page = () => {
             Cookies.set("token",token,{
                 expires:15,path:"/"
             });
+            setIsAuthenticatedWhenLoggedIn()
             window.location.href="/";
         }else{
             toast.error(res.message)

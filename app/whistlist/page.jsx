@@ -48,7 +48,7 @@ const page = () => {
                                     </div>
                                 </div>
 
-                                <p className='font-bold w-1/3' >Rs. {item.item.price}</p>
+                                <p className='font-bold w-1/3' >Rs. {item.item.totalPrice}</p>
                                 <p className='font-bold w-1/3'> 
                                     <button onClick={()=>{
                                         removeFromWistList(item.item)

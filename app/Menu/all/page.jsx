@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 
 const page = () => {
   const [listOfSpecialDishes, setListOfSpecialDishes]=useState([])
-  const api=useSelector(item=>item.APIReducer);
+  const url=process.env.API;
   const [category,setCategory]=useState('All');
   const [sort,setSort]=useState(1)
   const [rating,setRating]=useState('');

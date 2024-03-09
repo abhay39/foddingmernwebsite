@@ -10,7 +10,7 @@ const AddProduct = ({mode}) => {
   
   const [isLoading,setIsLoading]=useState(false)
   const user=useSelector(item=>item.UserReducer)
-  const API=useSelector(item=>item.APIReducer)
+  const url=process.env.API;
   const [pdetails,setPDetails]=useState({
     name:'',
     totalPrice:'',
@@ -27,7 +27,7 @@ const AddProduct = ({mode}) => {
 
   const submit=async()=>{
     // console.log(pdetails)
-      let res= await fetch(`${API}/api/products/addProduct`,{
+      let res= await fetch(`${url}/api/products/addProduct`,{
         method:"POST",
         headers:{
           'Content-Type':'application/json'
