@@ -14,7 +14,7 @@ const page = () => {
 
 
   const getDishes=async()=>{
-    let res = await fetch(`${api}/api/products/listofproducts/${category}/${sort}`);
+    let res = await fetch(`${url}/api/products/listofproducts/${category}/${sort}`);
     res = await res.json();
     setListOfSpecialDishes(res)
   }

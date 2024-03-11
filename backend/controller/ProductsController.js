@@ -36,7 +36,7 @@ export const getDishesWithCategoryAndPrice = async (req, res) => {
 
     if (category === 'All') {
       const products = await Product.find().sort({
-        price: sortOrder
+        totalPrice: sortOrder
       });
       res.status(200).json(products);
     } else {
