@@ -6,6 +6,7 @@ import productRoute from './routes/ProductRoutes.js';
 import orderRoutes from './routes/OrderRoutes.js';
 import cartRoutes from './routes/CartRoutes.js';
 import paymentRoutes from './routes/PaymentRoutes.js';
+import getAllValues from './routes/getAllValues.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
@@ -36,6 +37,7 @@ app.use("/api/products",productRoute)
 app.use("/api/orders",orderRoutes)
 app.use("/api/carts",cartRoutes)
 app.use("/api/payments",paymentRoutes)
+app.use("/api/getAllValues",getAllValues)
 
 
 await connectMongo()

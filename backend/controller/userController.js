@@ -57,3 +57,59 @@ export const login=async(req,res)=>{
     }
 }
 
+export const usersGrowth = async(req,res)=>{
+    try {
+        const getTotalUsers = await User.aggregate([
+            {
+                $group: {
+                    _id: {
+                        year: { $year: "$createdAt" },
+                        month: { $month: "$createdAt" },
+                        day: { $dayOfMonth: "$createdAt" }
+                    },
+                    newUserCount: { $sum: 1 }
+                }
+            },
+            {
+                $sort: {
+                    "_id.year": 1,
+                    "_id.month": 1,
+                    "_id.day": 1
+                }
+            }
+        ]);
+    
+        const usersWithGrowth = getTotalUsers.map((currentDay, index) => {
+            if (index === 0) {
+                return { ...currentDay, growthPercentage: 0 }; // No growth for the first day
+            }
+        
+            const previousDay = getTotalUsers[index - 1];
+            const rawGrowthPercentage = ((currentDay.newUserCount - previousDay.newUserCount) / previousDay.newUserCount) * 100;
+            const growthPercentage = parseFloat(rawGrowthPercentage.toFixed(3));
+        
+            return { ...currentDay, growthPercentage };
+        });
+
+        const sortedUsersWithGrowth = usersWithGrowth.sort((a, b) => {
+            const dateA = new Date(a._id.year, a._id.month - 1, a._id.day);
+            const dateB = new Date(b._id.year, b._id.month - 1, b._id.day);
+            return dateB - dateA;
+        });
+
+        const usersLength=await User.countDocuments();
+
+
+        res.status(200).json({
+            message: "Total Users By This Month",
+            sortedOrdersWithGrowth:sortedUsersWithGrowth,
+            orderLength:usersLength
+            
+        })
+    
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: e.message });
+    }
+    
+}

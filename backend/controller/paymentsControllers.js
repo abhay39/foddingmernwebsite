@@ -34,56 +34,83 @@ export const khaltiPay=async(req,res)=>{
     }
 }
 
-export const khaltiPaymentVerify=async(req,res)=>{
+export const khaltiPaymentVerify = async (req, res) => {
     const KHALTI_URL = process.env.KHALTI_URL;
     const data = req.body;
     console.log(data);
 
-    try{
-        let result = await axios.post(`${KHALTI_URL}/epayment/lookup/`,data.pidx,{
-            headers:{
-                Authorization:`key ${process.env.secret_key}`
+    try {
+        let result = await axios.post(`${KHALTI_URL}/epayment/lookup/`, data.pidx, {
+            headers: {
+                Authorization: `key ${process.env.secret_key}`
             }
         })
-        
-        if(!result){
+
+        if (!result) {
             res.json({
-            status: false,
-            message: "Something went wrong",
-            // result:result
+                status: false,
+                message: "Something went wrong",
+                // result:result
             })
         }
-    console.log(result.data)            
-        if(result?.data?.status==='Completed'){
-            const newpayment=new Payment({
-                user:data.user,
-                source:'khalti',
-                source_payment_id:result.data.pidx,
-                amount:result.data.total_amount/100,
-                order:data.orderId,
-                status:result.data.status
-            })
-            const isDone=await newpayment.save();
-            if(isDone){
-                const findOrderById=await Order.findById(data.orderId);
-                if(findOrderById){
-                    findOrderById.status="paid and processing";
-                    findOrderById.save();
-                }
-                const removerFromCart = await Cart.findOneAndDelete({
-                    user: data.user
+        console.log(result.data)
+
+        if (result?.data?.status === 'Completed') {
+            // Check if a payment with the same source_payment_id already exists
+            const existingPayment = await Payment.findOne({ source_payment_id: result.data.pidx });
+
+            if (existingPayment) {
+                // Payment already exists, handle accordingly (maybe update status or log a message)
+                console.log('Payment already exists in the database');
+                res.json({
+                    message: "Order was successfully placed and verified"
                 });
-                
-                if (removerFromCart) {
-                    console.log('Document removed successfully');
-                } else {
-                    console.log('Document not found');
+            } else {
+                // Payment doesn't exist, create a new payment entry
+                const newpayment = new Payment({
+                    user: data.user,
+                    source: 'khalti',
+                    source_payment_id: result.data.pidx,
+                    amount: result.data.total_amount / 100,
+                    order: data.orderId,
+                    status: result.data.status
+                });
+
+                const isDone = await newpayment.save();
+
+                if (isDone) {
+                    const findOrderById = await Order.findById(data.orderId);
+                    if (findOrderById) {
+                        findOrderById.status = "paid and processing";
+                        findOrderById.save();
+                    }
+                    const removerFromCart = await Cart.findOneAndDelete({
+                        user: data.user
+                    });
+
+                    if (removerFromCart) {
+                        console.log('Document removed successfully');
+                    } else {
+                        console.log('Document not found');
+                    }
                 }
+                res.json({
+                    message: "Order was successfully placed and verified"
+                });
             }
-            res.json({
-                "message":"Order was successfully placed and verified"
-            })
         }
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: e.message })
+    }
+}
+
+
+
+export const getTotalPayments=async(req,res)=>{
+    try{
+        const allPayments = await Payment.find();
+        res.status(200).json(allPayments);
     }catch(e){
         console.log(e);
         res.status(500).json({message:e.message})

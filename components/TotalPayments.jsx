@@ -14,7 +14,7 @@ const TotalPayments = () => {
   const [searched,setSearched]=useState([]);
 
   const fetchAPI = async () => {
-    let res = await fetch(`${url}/api/carts/admin/totalCarts`);
+    let res = await fetch(`${url}/api/payments/admin/getTotalPayments`);
     res = await res.json();
 
     setGetTotalPayments(res);
@@ -22,7 +22,7 @@ const TotalPayments = () => {
 
   useLayoutEffect(() => {
     fetchAPI();
-  }, []);
+  }, [getTotalPayments]);
 
   const changeMode=()=>{
     setOpenMode(!openMode)
@@ -40,7 +40,7 @@ const TotalPayments = () => {
       <section className=" min-h-screen w-full  px-4 py-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between md:space-y-0">
           <div>
-            <h2 className="text-3xl font-semibold">Total Payments {getTotalPayments.length}</h2>
+            <h2 className="text-3xl font-semibold">Total Payments </h2>
             <p className="mt-1 text-sm text-gray-700">
               This is a list of all payments. You can add new payments, edit or delete existing
               ones.
@@ -121,10 +121,10 @@ const TotalPayments = () => {
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-12 py-4">
-                          <div className="text-sm text-gray-900">{item?.paymentMethod}</div>
+                          <div className="text-sm text-gray-900">{item?.order}</div>
                         </td>
                         <td className="whitespace-nowrap px-12 py-4">
-                          <div className="text-sm text-gray-900">{item?.paymentMethod}</div>
+                          <div className="text-sm text-gray-900">{item?.source}</div>
                         </td>
                         <td className="whitespace-nowrap px-12 py-4">
                           <div className="text-sm text-gray-900">{item?.amount}</div>

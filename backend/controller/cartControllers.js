@@ -90,3 +90,48 @@ export const updateCart=async(req,res)=>{
     }
 }
 
+export const getCartGrowth = async(req,res)=>{
+    try{
+        const getTotalOrer=await Cart.aggregate([
+            {
+                $group:{
+                    _id:{
+                        year:{$year:"$updatedAt"},
+                        month:{$month:"$updatedAt"},
+                        day:{$dayOfMonth:"$updatedAt"}
+                    },
+                    newCartCount: { $sum: 1 }
+                }
+            },
+            {
+                $sort:{
+                    '_id.year':1,
+                    '_id.month':1,
+                    '_id.day':1,
+                }
+            }
+        ])
+
+        const cartsWithGrowth = getTotalOrer.map((currentDay, index) => {
+            if (index === 0) {
+                return { ...currentDay, growthPercentage: 0 }; // No growth for the first day
+            }
+
+            const previousDay = getTotalOrer[index - 1];
+            const growthPercentage = ((currentDay.totalOrders - previousDay.totalOrders) / previousDay.totalOrders) * 100;
+
+            return { ...currentDay, growthPercentage };
+        });
+
+
+        res.status(200).json({
+            message: "Total Sales By This Month",
+            cartsWithGrowth:cartsWithGrowth,
+            // getTotalOrer:getTotalOrer
+        })
+
+    }catch(e){
+        console.log(e);
+        res.status(500).json({message:e.message})
+    }
+}

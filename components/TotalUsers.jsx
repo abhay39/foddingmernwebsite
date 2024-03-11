@@ -3,7 +3,6 @@ import SignUpPage from "@/app/register/page";
 import Image from "next/image";
 import { useLayoutEffect, useState } from "react";
 
-import { useSelector } from "react-redux";
 
 const TotalUsers = () => {
   const url=process.env.API;
@@ -14,7 +13,7 @@ const TotalUsers = () => {
   const [searched,setSearched]=useState([]);
 
   const fetchAPI = async () => {
-    let res = await fetch(`${url}/api/users/totalUsers`);
+    let res = await fetch(`${url}/api/users/admin/totalUsers`);
     res = await res.json();
 
     setGetTotalUsers(res);
@@ -22,7 +21,7 @@ const TotalUsers = () => {
 
   useLayoutEffect(() => {
     fetchAPI();
-  }, []);
+  }, [openMode]);
 
   const changeMode=()=>{
     setOpenMode(!openMode)
