@@ -12,6 +12,8 @@ const TotalPayments = () => {
   const [openMode, setOpenMode] = useState(false);
   const [nameToBeSearched, setNameToBeSearched] = useState('')
   const [searched,setSearched]=useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10); 
 
   const fetchAPI = async () => {
     let res = await fetch(`${url}/api/payments/admin/getTotalPayments`);
@@ -34,6 +36,16 @@ const TotalPayments = () => {
     // console.log(filteredUsers)
   }
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = getTotalPayments.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(getTotalPayments.length / itemsPerPage);
+
+  // Generate an array of page numbers
+  const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div div className=" min-h-screen w-full">
@@ -110,7 +122,7 @@ const TotalPayments = () => {
                   </thead>
 
                   <tbody className="divide-y divide-gray-200 bg-white">
-                    {getTotalPayments.map((item) => (
+                    {currentItems.map((item) => (
                       <tr key={item._id} className="divide-x divide-gray-200">
                         <td className="whitespace-nowrap px-4  py-4">
                           <div className="flex items-center md:w-[200px]">
@@ -152,23 +164,44 @@ const TotalPayments = () => {
           </div>
         </div>
         <div className="mt-4 w-full border-gray-300">
-          <div className="mt-2 flex items-center justify-end">
-            <div className="space-x-2">
+        <div className="mt-2 flex items-center justify-between">
+          <div className="space-x-2 flex items-center">
+            <span className="mr-2 text-sm font-semibold text-gray-700">
+              Page {currentPage} of {totalPages}
+            </span>
+            {pageNumbers.map((number) => (
               <button
+                key={number}
                 type="button"
-                className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                className={`rounded-md bg-black px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${
+                  currentPage === number ? 'bg-black/80' : ''
+                }`}
+                onClick={() => paginate(number)}
               >
-                &larr; Previous
+                {number}
               </button>
-              <button
-                type="button"
-                className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-              >
-                Next &rarr;
-              </button>
-            </div>
+            ))}
+          </div>
+          <div className="space-x-2">
+            <button
+              type="button"
+              className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              &larr; Previous
+            </button>
+            <button
+              type="button"
+              className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              onClick={() => paginate(currentPage + 1)}
+              disabled={indexOfLastItem >= getTotalPayments.length}
+            >
+              Next &rarr;
+            </button>
           </div>
         </div>
+      </div>
       </section>
     {openMode && (
       <div className="top-0 z-50 min-h-screen absolute w-full  left-0 flex items-center justify-center bg-slate-200 p-6">

@@ -16,8 +16,8 @@ export default function RootLayout({ children }) {
   const {isAuthenticated,user,setIsAuthenticatedWhenLoggedIn,setUserValues} =useContext(AuthContext)
   const url=process.env.API;
 
+  const token=Cookies.get('token');
   useLayoutEffect(()=>{
-    const token=Cookies.get('token');
 
     const getUserDetails=async()=>{
       let res=await fetch(`${url}/api/users/getUser/${token}`);
@@ -34,10 +34,14 @@ export default function RootLayout({ children }) {
   if(isAuthenticated) {
     if(user.role!="admin") {
       toast.error("You are user so you are not allowed to access admin panel");
-      
         router.push("/")
       
     }
+  }
+
+  if(!token) {
+    toast.error("You are user so you are not allowed to access admin panel");
+    router.push("/")
   }
 
 

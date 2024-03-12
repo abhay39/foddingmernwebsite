@@ -13,72 +13,53 @@ import axios from "axios";
 
 const page = () => {
     
-  const url=process.env.API;
-  const search=useSearchParams();
+  const url = process.env.API;
+    const search = useSearchParams();
+    const { setUserValues, user } = useContext(AuthContext);
 
-  const {setUserValues,user} =useContext(AuthContext);
+    useEffect(() => {
+        const token = Cookies.get('token');
 
-  useEffect(()=>{
-    const token=Cookies.get('token');
+        const getUserDetails = async () => {
+            let res = await fetch(`${url}/api/users/getUser/${token}`);
+            res = await res.json();
+            setUserValues(res);
+        };
 
-    const getUserDetails=async()=>{
-      let res=await fetch(`${url}/api/users/getUser/${token}`);
-      res= await res.json();
-      // console.log(res)
-      setUserValues(res);
-    }
-    if(token){
-      getUserDetails()
-    }
-  },[])
+        if (token) {
+            getUserDetails();
+        }
+    }, []);
 
-  const status=search.get('q');
-  const oid=search.get('oid');
-  const amount=search.get('amt');
-  const tidx=search.get('refId');
+    const status = search.get('q');
+    const oid = search.get('oid');
+    const amount = search.get('amt');
+    const tidx = search.get('refId');
 
-  // console.log(user)
-
-
-  useEffect(()=>{
-    const token=Cookies.get('token');
-
-    const getUserDetails=async()=>{
-      let res=await fetch(`${url}/api/users/getUser/${token}`);
-      res= await res.json();
-      // console.log(res)
-      setUserValues(res);
-    }
-    if(token){
-      getUserDetails()
-    }
-  },[])
-
-    var path="https://uat.esewa.com.np/epay/transrec";
-    var params= {
+    const params = {
         amt: amount,
         rid: tidx,
         pid: oid,
         scd: "EPAYTEST"
-    }
-    const datas={
-      user:user?._id,
-      params:params
-    }
-  
+    };
+
+    const datas = {
+        user: user?._id,
+        params: params
+    };
 
     useEffect(() => {
-      const handleSubmit = async () => {
-        try {
-          let res= await axios.post(`${url}/api/payments/user/esewaPay/verify-payment`,datas)
-        } catch (error) {
-          console.error('Error submitting form:', error);
+        const handleSubmit = async () => {
+            try {
+                let res = await axios.post(`${url}/api/payments/user/esewaPay/verify-payment`, datas);
+            } catch (error) {
+                console.error('Error submitting form:', error);
+            }
+        };
+
+        if (user && tidx) {
+            handleSubmit();
         }
-      };
-  
-      if(user && tidx){
-        handleSubmit();
-      }
     }, [user]);
 
 
