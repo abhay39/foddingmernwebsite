@@ -9,28 +9,29 @@ const SmallComponents = ({item,totalVals, growthPercetage}) => {
     const [result,setResult]=useState('')
     const [amount,setTotalAmount]=useState(0)
 
-    const fetchAPI=async()=>{
-        if(name=="Total Orders"){
-            let res= await fetch(`${url}/api/orders/admin/totalOrders/salesByThisMonth`);
-            res= await res.json();
-            setResult(res)
-        }else if(name=="Total Users"){
-            let res= await fetch(`${url}/api/users/admin/totalUsers/userGrowth`);
-            res= await res.json();
-            setResult(res)
-
-        }else if(name=="Total Carts"){
-            
-        }else if(name=="Total Sales"){
-            let res= await fetch(`${url}/api/orders/admin/totalOrders/salesByThisMonth`);
-            res= await res.json();
-            setResult(res)
-        }
-    }
+    
 
     useEffect(() => {
+        const fetchAPI=async()=>{
+            if(name=="Total Orders"){
+                let res= await fetch(`${url}/api/orders/admin/totalOrders/salesByThisMonth`);
+                res= await res.json();
+                setResult(res)
+            }else if(name=="Total Users"){
+                let res= await fetch(`${url}/api/users/admin/totalUsers/userGrowth`);
+                res= await res.json();
+                setResult(res)
+    
+            }else if(name=="Total Carts"){
+                
+            }else if(name=="Total Sales"){
+                let res= await fetch(`${url}/api/orders/admin/totalOrders/salesByThisMonth`);
+                res= await res.json();
+                setResult(res)
+            }
+        }
         fetchAPI();
-    }, [name]);
+    }, [url,name]);
 
     
     useEffect(()=>{

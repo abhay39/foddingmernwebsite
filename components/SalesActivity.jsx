@@ -29,15 +29,16 @@ const SalesActivity = () => {
     const url=process.env.API;
     const [result,setResult]=useState('')
 
-    const fetchAPI=async()=>{
+    
+
+    useLayoutEffect(() => {
+      const fetchAPI=async()=>{
         let res= await fetch(`${url}/api/orders/admin/totalOrders/salesAllDay`);
         res= await res.json();
         setResult(res)
     }
-
-    useLayoutEffect(() => {
         fetchAPI();
-    }, []);
+    }, [url]);
 
     
 

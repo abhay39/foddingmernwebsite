@@ -3,32 +3,31 @@ import { UserActions } from "@/store/userSlice";
 import Cookies from "js-cookie";
 import Image from "next/image"
 import { useLayoutEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { MdDashboard } from "react-icons/md";
+
 import { userNavs } from "@/assets/userNav";
 
 
 const LeftSideNavabar = () => {
     const [isActiveNav,setIsActiveNav] =useState("Dashboard");
-    const user=useSelector(item=>item.UserReducer);
+    
 
     const [tokens,setToken]=useState('');
     const url=process.env.API;
-    const dispatch=useDispatch();
-    const userActions=UserActions;
 
-    useLayoutEffect(()=>{
-        const token=Cookies.get('token');
+    // const userActions=UserActions;
 
-        setToken(token)
+    // useLayoutEffect(()=>{
+    //     const token=Cookies.get('token');
 
-        const getUserDetails=async()=>{
-        let res=await fetch(`${url}/api/auth/${token}`);
-        res= await res.json();
-        dispatch(userActions.addUserDetails(res))
-        }
-        getUserDetails()
-    },[])
+    //     setToken(token)
+
+    //     const getUserDetails=async()=>{
+    //     let res=await fetch(`${url}/api/auth/${token}`);
+    //     res= await res.json();
+        
+    //     }
+    //     getUserDetails()
+    // },[url])
 
   return (
     <div className=" min-h-screen bg-green">

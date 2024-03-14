@@ -12,16 +12,16 @@ const TotalUsers = () => {
   const [nameToBeSearched, setNameToBeSearched] = useState('')
   const [searched,setSearched]=useState([]);
 
-  const fetchAPI = async () => {
-    let res = await fetch(`${url}/api/users/admin/totalUsers`);
-    res = await res.json();
-
-    setGetTotalUsers(res);
-  };
-
+  
   useLayoutEffect(() => {
+    const fetchAPI = async () => {
+      let res = await fetch(`${url}/api/users/admin/totalUsers`);
+      res = await res.json();
+  
+      setGetTotalUsers(res);
+    };
     fetchAPI();
-  }, [openMode]);
+  }, [openMode,url]);
 
   const changeMode=()=>{
     setOpenMode(!openMode)

@@ -5,18 +5,14 @@ import DishesComponent from '@/components/DishesComponent'
 import React, { useEffect, useState } from 'react'
 
 
-const page = () => {
+const AllItems = () => {
   const [listOfSpecialDishes, setListOfSpecialDishes]=useState([])
   const url=process.env.API;
   const [category,setCategory]=useState('All');
   const [sort,setSort]=useState(1)
 
 
-  const getDishes=async()=>{
-    let res = await fetch(`${url}/api/products/listofproducts/${category}/${sort}`);
-    res = await res.json();
-    setListOfSpecialDishes(res)
-  }
+  
 
   const changeCategory=(item)=>{
     setCategory(item);
@@ -29,8 +25,13 @@ const page = () => {
 
 
   useEffect(()=>{
+    const getDishes=async()=>{
+      let res = await fetch(`${url}/api/products/listofproducts/${category}/${sort}`);
+      res = await res.json();
+      setListOfSpecialDishes(res)
+    }
     getDishes()
-  },[category,sort]);
+  },[category,sort,url]);
 
   return (
     <>
@@ -68,4 +69,4 @@ const page = () => {
   )
 }
 
-export default page
+export default AllItems

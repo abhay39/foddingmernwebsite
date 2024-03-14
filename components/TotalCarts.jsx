@@ -13,16 +13,16 @@ const TotalCarts = () => {
   const [nameToBeSearched, setNameToBeSearched] = useState('')
   const [searched,setSearched]=useState([]);
 
-  const fetchAPI = async () => {
-    let res = await fetch(`${url}/api/carts/admin/totalCarts`);
-    res = await res.json();
-
-    setGetTotalCarts(res);
-  };
-
+  
   useLayoutEffect(() => {
+    const fetchAPI = async () => {
+      let res = await fetch(`${url}/api/carts/admin/totalCarts`);
+      res = await res.json();
+  
+      setGetTotalCarts(res);
+    };
     fetchAPI();
-  }, []);
+  }, [url]);
 
   const changeMode=()=>{
     setOpenMode(!openMode)

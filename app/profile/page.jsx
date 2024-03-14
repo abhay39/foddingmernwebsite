@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useLayoutEffect, useState } from "react";
 
-const page = () => {
+const ProfileMainPage = () => {
   const [isToken, setIsToken] =useState(null)
   const router=useRouter();
   
@@ -17,7 +17,7 @@ const page = () => {
     }else{
       router.push("/login")
     }
-  }, []);
+  }, [isToken,router]);
 
   return (
     <div className=" w-full ">
@@ -26,4 +26,4 @@ const page = () => {
   )
 }
 
-export default page
+export default ProfileMainPage

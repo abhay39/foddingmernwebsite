@@ -13,16 +13,16 @@ const TotalOrders = () => {
   const [nameToBeSearched, setNameToBeSearched] = useState('')
   const [searched,setSearched]=useState([]);
 
-  const fetchAPI = async () => {
-    let res = await fetch(`${url}/api/orders/admin/totalOrders`);
-    res = await res.json();
-
-    setGetTotalOrder(res);
-  };
-
+  
   useLayoutEffect(() => {
+    const fetchAPI = async () => {
+      let res = await fetch(`${url}/api/orders/admin/totalOrders`);
+      res = await res.json();
+  
+      setGetTotalOrder(res);
+    };
     fetchAPI();
-  }, []);
+  }, [url]);
 
   const changeMode=()=>{
     setOpenMode(!openMode)

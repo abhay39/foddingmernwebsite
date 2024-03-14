@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 import React, { useLayoutEffect, useState } from 'react'
 
-const page = ({params}) => {
+const ProfilesNAv = ({params}) => {
     
   const [selectedNav,setIsSelectedNav]=useState(params.nav || "dashboard")
 
@@ -20,7 +20,7 @@ const page = ({params}) => {
     }else{
       router.push("/login")
     }
-  }, []);
+  }, [router]);
 
   return (
     <div>
@@ -39,4 +39,4 @@ const page = ({params}) => {
   )
 }
 
-export default page
+export default ProfilesNAv

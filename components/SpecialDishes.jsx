@@ -12,15 +12,15 @@ const SpecialDishes = () => {
 
 
 
-  const getDishes=async()=>{
-    let res = await fetch(`${url}/api/products/listofproducts`);
-    res = await res.json();
-    setListOfSpecialDishes(res)
-  }
-
+  
   useEffect(()=>{
+    const getDishes=async()=>{
+      let res = await fetch(`${url}/api/products/listofproducts`);
+      res = await res.json();
+      setListOfSpecialDishes(res)
+    }
     getDishes()
-  },[])
+  },[url])
 
   return (
     <div className=' min-h-screen flex flex-col '>

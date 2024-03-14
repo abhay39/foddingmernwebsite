@@ -4,6 +4,7 @@ import { Trash, Heart } from 'lucide-react'
 import { AuthContext } from '@/hooks/auth';
 import CheckoutThree from '@/components/CheckOutPage';
 import Cookies from 'js-cookie';
+import Image from 'next/image';
 
 
 
@@ -33,7 +34,7 @@ const Page = () => {
     if(token){
       getUserDetails()
     }
-  },[])
+  },[url, setUserValues])
 
   //  console.log(user)
 
@@ -46,7 +47,7 @@ const Page = () => {
     if(user && user._id){
       getCart();
     }
-  },[user])
+  },[url,user])
 
   useEffect(() => {
     let a = 0; // Initialize a to zero
@@ -83,9 +84,11 @@ const Page = () => {
                 <div key={product._id} className="">
                   <li className="flex py-6 px-2 sm:py-6 ">
                     <div className="flex-shrink-0">
-                      <img
+                      <Image
                         src={product.product.image}
                         alt={product.product.name}
+                        height={38}
+                        width={38}
                         className="sm:h-38 sm:w-38 h-24 w-24 rounded-full object-contain object-center"
                       />
                     </div>

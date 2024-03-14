@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const HomePage = () => {
   const url=process.env.API;
-  const {setUserValues} =useContext(AuthContext);
+  const data =useContext(AuthContext);
 
   useLayoutEffect(()=>{
     const token=Cookies.get('token');
@@ -21,12 +21,12 @@ const HomePage = () => {
       let res=await fetch(`${url}/api/users/getUser/${token}`);
       res= await res.json();
       // console.log(res)
-      setUserValues(res);
+      data.setUserValues(res);
     }
     if(token){
       getUserDetails()
     }
-  },[])
+  },[data,url])
 
   return (
     <div>

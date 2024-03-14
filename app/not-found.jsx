@@ -1,14 +1,17 @@
 import React from 'react'
 import { Menu, X, Check, ArrowRight, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const NotFound = () => {
   return (
     <div className="my-12 flex items-center justify-center px-2 md:my-24 md:px-0">
         <div className="lg:flex lg:items-center lg:space-x-10">
-          <img
+          <Image
             src="https://illustrations.popsy.co/white/resistance-band.svg"
             alt="question-mark"
+            height={300}
+            width={300}
             className="h-[300px] w-auto"
           />
           <div>

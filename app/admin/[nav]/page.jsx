@@ -1,12 +1,11 @@
 "use client"
 import { adminNavs } from '@/assets/adminNav';
-import TotalUsers from '@/components/TotalUsers';
-import React, { useState } from 'react'
+
 
 const page = ({params}) => {
  
+  const selectedNav=params.nav
 
-  const [selectedNav,setIsSelectedNav]=useState(params.nav || "dashboard")
   
   
   return (

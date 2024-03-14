@@ -15,7 +15,7 @@ const Testimonials = () => {
                 <span className='text-[14px] hidden md:flex md:text-[20px] text-red font-[700] '>TESTIMONIALS</span>
                 <h1 className='text-[20px] md:text-[60px] font-[700]'>What Our Customers <br />Say About Us</h1>
                 <span className='text-[16px] text-justify md:text-[26px] font-[500] mt-3'>
-                “I had the pleasure of dining at Foodi last night, and I'm still raving about the experience! The attention to detail in presentation and service was impeccable”
+                “I had the pleasure of dining at Foodi last night, and I&apos;m still raving about the experience! The attention to detail in presentation and service was impeccable”
                 </span>
 
                 <div className='mt-4 flex flex-col md:flex-row gap-4'>

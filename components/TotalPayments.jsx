@@ -15,16 +15,16 @@ const TotalPayments = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10); 
 
-  const fetchAPI = async () => {
-    let res = await fetch(`${url}/api/payments/admin/getTotalPayments`);
-    res = await res.json();
-
-    setGetTotalPayments(res);
-  };
-
+  
   useLayoutEffect(() => {
+    const fetchAPI = async () => {
+      let res = await fetch(`${url}/api/payments/admin/getTotalPayments`);
+      res = await res.json();
+  
+      setGetTotalPayments(res);
+    };
     fetchAPI();
-  }, [getTotalPayments]);
+  }, [getTotalPayments,url]);
 
   const changeMode=()=>{
     setOpenMode(!openMode)

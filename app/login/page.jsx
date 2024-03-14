@@ -6,10 +6,9 @@ import Link from 'next/link';
 import { useContext, useState } from 'react'
 import { toast } from 'react-hot-toast';
 
-import { useSelector } from 'react-redux';
 
 
-const page = () => {
+const LoginPage = () => {
    const url=process.env.API;
 
     const [formErrors,setFormErrors]=useState({
@@ -127,4 +126,4 @@ const page = () => {
   )
 }
 
-export default page
+export default LoginPage

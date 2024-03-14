@@ -11,15 +11,15 @@ const TotalProducts = () => {
   const [getTotalProduct, setGetTotalProduct] = useState([]);
   const [openMode, setOpenMode] = useState(false);
 
-  const fetchAPI = async () => {
-    let res = await fetch(`${url}/api/products/listofproducts`);
-    res = await res.json();
-    setGetTotalProduct(res);
-  };
-
+  
   useLayoutEffect(() => {
+    const fetchAPI = async () => {
+      let res = await fetch(`${url}/api/products/listofproducts`);
+      res = await res.json();
+      setGetTotalProduct(res);
+    };
     fetchAPI();
-  }, [getTotalProduct]);
+  }, [getTotalProduct,url]);
 
   const changeMode=()=>{
     setOpenMode(!openMode)

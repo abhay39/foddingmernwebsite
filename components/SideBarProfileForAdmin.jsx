@@ -29,10 +29,7 @@ const SideBarProfileForAdmin = () => {
       dispatch(userActions.addUserDetails(res))
     }
     getUserDetails()
-  },[tokens])
-
-
-
+  },[tokens,url,userActions])
 
 
   return (
@@ -74,7 +71,7 @@ const SideBarProfileForAdmin = () => {
           <div className="space-y-3 ">
             {
               adminNavs.map((item, index) => (
-                <ul>
+                <ul key={index}>
                   <li onClick={()=>{
                     setIsActiveNav(item.name)
                   }} className='mb-8' key={index}>

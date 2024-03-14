@@ -1,10 +1,11 @@
 "use client"
 import { userNavs } from '@/assets/userNav';
+import { AuthContext } from '@/hooks/auth';
 import { UserActions } from '@/store/userSlice';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect, useLayoutEffect } from 'react'; 
+import { useState, useEffect, useLayoutEffect, useContext } from 'react'; 
 import { useDispatch, useSelector } from 'react-redux';
 
 // Component definition
@@ -12,10 +13,11 @@ const SideBarProfile = () => {
   const [tokens,setToken]=useState('');
   const router=useRouter();
   const url=process.env.API;
-  const dispatch=useDispatch();
-  const user=useSelector(item=>item.UserReducer);
+
+
   const userActions=UserActions;
   const [isActiveNav,setIsActiveNav]=useState("Dashboard")
+  const {user}=useContext(AuthContext)
 
   useLayoutEffect(()=>{
     const token=Cookies.get('token');
@@ -25,10 +27,10 @@ const SideBarProfile = () => {
     const getUserDetails=async()=>{
       let res=await fetch(`${url}/api/auth/${token}`);
       res= await res.json();
-      dispatch(userActions.addUserDetails(res))
+      
     }
     getUserDetails()
-  },[])
+  },[url])
 
 
 
@@ -39,7 +41,7 @@ const SideBarProfile = () => {
       <div className="min-h-screen bg-green">
         <div className="flex p-4 gap-3 w-full items-center">
           <Image
-            src={user.profilePicture || "https://avatar.iran.liara.run/public/boy?username=aa"}
+            src={user?.profilePicture || "https://avatar.iran.liara.run/public/boy?username=aa"}
             alt="profile"
             height={80}
             width={80}

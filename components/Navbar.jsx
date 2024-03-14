@@ -42,7 +42,7 @@ const Navbar = () => {
     if(user && user._id){
       getCart();
     }
-  },[user])
+  },[user,url])
   
   // console.log(getCartLength)
 
