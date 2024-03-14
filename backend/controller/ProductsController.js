@@ -1,7 +1,9 @@
+import { connectMongo } from "../index.js";
 import Product from "../models/productsModel.js";
 
 export const totalProductsList = async (req, res) => {
   try {
+    await connectMongo()
     const products = await Product.find();
     res.status(200).json(products);
   } catch (err) {
@@ -13,6 +15,8 @@ export const getDishesWithCategory = async (req, res) => {
   const { category } = req.params;
 
   try {
+
+    await connectMongo()
     if (category == "All") {
       const products = await Product.find();
       res.status(200).json(products);
@@ -29,9 +33,10 @@ export const getDishesWithCategoryAndPrice = async (req, res) => {
   const { category } = req.params;
   const { price } = req.params;
 
-  console.log(category, price);
+  // console.log(category, price);
 
   try {
+    await connectMongo()
     const sortOrder = price === '1' ? 1 : -1;
 
     if (category === 'All') {
@@ -55,9 +60,10 @@ export const getDishesWithCategoryAndRating = async (req, res) => {
   const { category } = req.params;
   const { rating } = req.params;
 
-  console.log(category, rating);
+  // console.log(category, rating);
 
   try {
+    await connectMongo()
     const sortOrder = price === '1' ? 1 : -1;
 
     if (category === 'All') {
@@ -79,6 +85,7 @@ export const getDishesWithCategoryAndRating = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   try {
+    await connectMongo()
     const products = await Product.find();
     res.status(200).json(products);
   } catch (err) {
@@ -97,6 +104,7 @@ export const addProduct = async (req, res) => {
   } = req.body;
 
   try {
+    await connectMongo()
     const product = new Product(req.body);
     const result = await product.save();
     res.status(200).json({ message: "Product Added",result:result });
@@ -109,6 +117,7 @@ export const addProduct = async (req, res) => {
 
 export const deleteProduct=async(req,res)=>{
   try{
+    await connectMongo()
     const {token}=req.params;
     console.log(token)
     const result=await Product.findByIdAndDelete(token);

@@ -1,8 +1,10 @@
+import { connectMongo } from "../index.js";
 import Order from "../models/orderModel.js";
 import User from "../models/userModel.js";
 
 export const totalOrders=async(req,res)=>{
     try{
+        await connectMongo()
         const orders=await Order.find({})
         res.status(200).json(orders)
     }catch(e){
@@ -15,6 +17,7 @@ export const totalOrders=async(req,res)=>{
 export const userTotalOrder=async(req,res)=>{
     const {id}=req.params;
     try{
+        await connectMongo()
         const orders=await Order.find({
             user:id
         })
@@ -29,6 +32,7 @@ export const userTotalOrder=async(req,res)=>{
 export const createOrder=async(req,res)=>{
     // console.log(req.body);
     try{
+        await connectMongo()
         const newOrder=new Order(req.body);
         const result=await newOrder.save();
         if(!result){
@@ -45,6 +49,7 @@ export const createOrder=async(req,res)=>{
 export const deleteOrder=async(req,res)=>{
     const {id}=req.params;
     try{
+        await connectMongo()
         const result=await Order.findByIdAndDelete(id);
         if(!result){
             res.status(400).json({message:"Order Not Deleted"})
@@ -59,6 +64,7 @@ export const deleteOrder=async(req,res)=>{
 export const updateOrder=async(req,res)=>{
     const {id}=req.params;
     try{
+        await connectMongo()
         const result=await Order.findByIdAndUpdate(id,req.body,{new:true});
         if(!result){
             res.status(400).json({message:"Order Not Updated"})
@@ -75,6 +81,7 @@ export const updateOrder=async(req,res)=>{
 
 export const salesByThisMonth = async(req,res)=>{
     try{
+        await connectMongo()
         const getTotalOrer=await Order.aggregate([
             {
                 $group:{
@@ -130,6 +137,7 @@ export const salesByThisMonth = async(req,res)=>{
 
 export const salesAllDay = async (req, res) => {
     try {
+        await connectMongo()
         const getTotalOrder = await Order.aggregate([
             {
                 $group: {

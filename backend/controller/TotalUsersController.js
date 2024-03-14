@@ -1,9 +1,11 @@
+import { connectMongo } from "../index.js";
 import User from "../models/userModel.js";
 import jwt from 'jsonwebtoken';
 
 
 export const getTotalUsers=async(req,res)=>{
     try{
+        await connectMongo()
         const totalUsers=await User.find();
         res.json(totalUsers)
     }catch(e){
@@ -15,6 +17,7 @@ export const getUserDetails = async(req, res) =>{
     const {token}=req.params;
 
     try{
+        await connectMongo()
         const verifyUser=jwt.verify(token, process.env.JWT_SECRET);
 
         if(!verifyUser){

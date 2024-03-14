@@ -1,9 +1,11 @@
+import { connectMongo } from "../index.js";
 import Cart from "../models/cartModel.js";
 import Order from "../models/orderModel.js";
 import User from "../models/userModel.js";
 
 export const sendingTotalValues=async(req,res)=>{
     try{
+        await connectMongo()
 
         // cartvalues
         const getCartOrder=await Cart.aggregate([

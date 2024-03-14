@@ -5,7 +5,7 @@ import { AuthContext } from "@/hooks/auth";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import {  useContext, useEffect } from "react";
+import {  useContext, useEffect, useLayoutEffect } from "react";
 import axios from "axios";
 
 // http://localhost:3000/payment?q=su&oid=65ec265eaeddfa047ee727f3&amt=1515.0&refId=00070QE

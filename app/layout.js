@@ -20,7 +20,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${inter.className}  w-full bg-slate-100 min-h-screen `}>
         <AuthProvider>
-          <StartingPage>
             <Toaster position="top-center" />
             <NextTopLoader
             color="#2299DD"
@@ -41,7 +40,6 @@ export default function RootLayout({ children }) {
             <div>
               <Footer />
             </div>
-          </StartingPage>
         </AuthProvider>
         </body>
     </html>

@@ -14,7 +14,8 @@ const PaymentSchema=new mongoose.Schema({
     },
     source_payment_id:{
         type:String,
-        required:true
+        required:true,
+        unique:true
     },
     amount:{
         type:Number,
@@ -23,7 +24,8 @@ const PaymentSchema=new mongoose.Schema({
     },
     order:{
         type:mongoose.Schema.Types.ObjectId,
-        required:true
+        required:true,
+        unique:true
     },
     status:{
         type:String,

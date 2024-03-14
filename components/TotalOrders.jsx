@@ -29,7 +29,7 @@ const TotalOrders = () => {
   }
 
   const handleChange=()=>{
-    const filteredUsers=getTotalOrder.filter(user=>user.name.toLowerCase().includes(nameToBeSearched.toLowerCase()))
+    const filteredUsers=getTotalOrder?.filter(user=>user.name.toLowerCase().includes(nameToBeSearched.toLowerCase()))
     setSearched(filteredUsers)
     // console.log(filteredUsers)
   }
@@ -109,7 +109,7 @@ const TotalOrders = () => {
                   </thead>
 
                   <tbody className="divide-y divide-gray-200 bg-white">
-                    {getTotalOrder.map((item) => (
+                    {getTotalOrder?.map((item) => (
                       <tr key={item._id} className="divide-x divide-gray-200">
                         <td className="whitespace-nowrap px-4  py-4">
                           <div className="flex items-center md:w-[200px]">

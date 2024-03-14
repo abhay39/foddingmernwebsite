@@ -1,16 +1,15 @@
 "use client"
-import { menuDishesAll } from '@/assets/listOfDishes'
+
 import Categories from '@/components/Categories'
 import DishesComponent from '@/components/DishesComponent'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+
 
 const page = () => {
   const [listOfSpecialDishes, setListOfSpecialDishes]=useState([])
   const url=process.env.API;
   const [category,setCategory]=useState('All');
   const [sort,setSort]=useState(1)
-  const [rating,setRating]=useState('');
 
 
   const getDishes=async()=>{

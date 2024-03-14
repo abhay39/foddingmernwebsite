@@ -1,8 +1,10 @@
+import { connectMongo } from "../index.js";
 import Cart from "../models/cartModel.js";
 
 
 export const totalCarts=async(req,res)=>{
     try{
+        await connectMongo()
         const carts=await Cart.find({})
         res.status(200).json(carts)
     }catch(e){
@@ -15,6 +17,7 @@ export const totalCarts=async(req,res)=>{
 export const userTotalCart=async(req,res)=>{
     const {id}=req.params;
     try{
+        await connectMongo()
         const carts=await Cart.findOne({
             user:id
         }).populate('products.product', ['name', 'description','category','image','discountPrice' ,'totalPrice'])
@@ -30,6 +33,7 @@ export const userTotalCart=async(req,res)=>{
 export const createCart=async(req,res)=>{
     const {user,product} = req.body;
     try{
+        await connectMongo()
         const checkIfExists = await Cart.findOne({ user: user });
         if(checkIfExists){
             const addinExits=await Cart.findByIdAndUpdate(
@@ -65,6 +69,7 @@ export const createCart=async(req,res)=>{
 export const deleteCart=async(req,res)=>{
     const {id}=req.params;
     try{
+        await connectMongo()
         const result=await Cart.findByIdAndDelete(id);
         if(!result){
             res.status(400).json({message:"Cart Not Deleted"})
@@ -79,6 +84,7 @@ export const deleteCart=async(req,res)=>{
 export const updateCart=async(req,res)=>{
     const {id}=req.params;
     try{
+        await connectMongo()
         const result=await Cart.findByIdAndUpdate(id,req.body,{new:true});
         if(!result){
             res.status(400).json({message:"Cart Not Updated"})
@@ -92,6 +98,7 @@ export const updateCart=async(req,res)=>{
 
 export const getCartGrowth = async(req,res)=>{
     try{
+        await connectMongo()
         const getTotalOrer=await Cart.aggregate([
             {
                 $group:{

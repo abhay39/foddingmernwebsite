@@ -74,7 +74,7 @@ const SmallComponents = ({item,totalVals, growthPercetage}) => {
                 </svg>
                 
                 <span className=' flex items-center text-sm'>
-                    8.5%
+                    0%
                     down from yesturday
                 </span>
             </div>

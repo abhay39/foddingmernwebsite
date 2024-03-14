@@ -6,13 +6,11 @@ import Image from "next/image";
 import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { FaRegHeart, FaHeart, FaStar } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+
 
 const DishesComponent = ({ item }) => {
 
   const url=process.env.API;
-  const dispatch = useDispatch();
-  const wist = WhistListActions;
   const {user}=useContext(AuthContext)
 
 

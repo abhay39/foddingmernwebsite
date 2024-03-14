@@ -10,7 +10,8 @@ const nextConfig = {
         domains: ['avatar.iran.liara.run','res.cloudinary.com'],
       },
       env:{
-        API:"http://localhost:8000"
+        // API:"http://localhost:8000"
+        API:"https://popcorn-woad.vercel.app"
       }
 };
 

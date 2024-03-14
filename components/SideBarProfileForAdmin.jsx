@@ -14,15 +14,13 @@ import Link from 'next/link';
 const SideBarProfileForAdmin = () => {
   const [tokens,setToken]=useState('');
   const router=useRouter();
-  const url=useSelector(item=>item.APIReducer);
-  const dispatch=useDispatch();
-  const user=useSelector(item=>item.UserReducer);
+  const url=process.env.API;
+  
   const userActions=UserActions;
   const [isActiveNav,setIsActiveNav]=useState("Dashboard")
 
   useLayoutEffect(()=>{
     const token=Cookies.get('token');
-
     setToken(token)
 
     const getUserDetails=async()=>{

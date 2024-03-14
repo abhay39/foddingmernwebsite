@@ -31,6 +31,7 @@ const AuthProvider=({children})=>{
       toast.success("Logout Success")
       setIsAuthenticated(false)
       setUser(null)
+      window.location.href="/"
   }
 
   const updatedValues={

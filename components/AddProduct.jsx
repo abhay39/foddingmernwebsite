@@ -1,16 +1,17 @@
 "use client"
-import React, {useState } from "react";
-import { useSelector } from "react-redux";
+import React, {useContext, useState } from "react";
 import anim from '../public/upload.json';
-
 import Lottie from 'lottie-react';
 import toast from "react-hot-toast";
+import { AuthContext } from "@/hooks/auth";
 
 const AddProduct = ({mode}) => {
   
   const [isLoading,setIsLoading]=useState(false)
-  const user=useSelector(item=>item.UserReducer)
   const url=process.env.API;
+
+  const {user}=useContext(AuthContext);
+
   const [pdetails,setPDetails]=useState({
     name:'',
     totalPrice:'',

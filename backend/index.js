@@ -14,12 +14,26 @@ import cors from 'cors';
 const app=express();
 dotenv.config();
 app.use(express.json())
-app.use(cors())
+
+
+const allowedOrigins = ['http://localhost:3000', 'https://pouuuu.vercel.app'];
+
+// CORS middleware
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
 
 export const connectMongo=async()=>{
     try{
         await mongoose.connect(process.env.MONGODB_URI)
-        console.log("Connected to MongoDB");
+        // console.log("Connected to MongoDB");
+
     }catch(err){
         console.log(err);
     }
@@ -27,7 +41,7 @@ export const connectMongo=async()=>{
 
 const PORT=process.env.PORT || 5000;
 
-app.get('/',(req,res)=>{
+app.get('/',async(req,res)=>{
     res.send('Hello World');
 });
 
@@ -40,7 +54,10 @@ app.use("/api/payments",paymentRoutes)
 app.use("/api/getAllValues",getAllValues)
 
 
-await connectMongo()
+connectMongo()
+
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
 });
+
+export default app;

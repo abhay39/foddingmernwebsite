@@ -3,11 +3,13 @@ import Cart from "../models/cartModel.js";
 import Payment from "../models/payment.js";
 import Order from "../models/orderModel.js";
 import {parseString } from 'xml2js'
+import { connectMongo } from "../index.js";
 
 export const khaltiPay=async(req,res)=>{
     const KHALTI_URL = process.env.KHALTI_URL;
  
     try{
+        await connectMongo()
         const payload = req.body;
         let result = await axios.post(`${KHALTI_URL}/epayment/initiate/`,payload,{
             headers:{
@@ -36,9 +38,10 @@ export const khaltiPay=async(req,res)=>{
 export const khaltiPaymentVerify = async (req, res) => {
     const KHALTI_URL = process.env.KHALTI_URL;
     const data = req.body;
-    console.log(data);
+    // console.log(data);
 
     try {
+        await connectMongo()
         let result = await axios.post(`${KHALTI_URL}/epayment/lookup/`, data.pidx, {
             headers: {
                 Authorization: `key ${process.env.secret_key}`
@@ -52,7 +55,7 @@ export const khaltiPaymentVerify = async (req, res) => {
                 // result:result
             })
         }
-        console.log(result.data)
+        // console.log(result.data)
 
         if (result?.data?.status === 'Completed') {
             // Check if a payment with the same source_payment_id already exists
@@ -89,8 +92,6 @@ export const khaltiPaymentVerify = async (req, res) => {
 
                     if (removerFromCart) {
                         console.log('Document removed successfully');
-                    } else {
-                        console.log('Document not found');
                     }
                 }
                 res.json({
@@ -107,8 +108,10 @@ export const khaltiPaymentVerify = async (req, res) => {
 
 export const esewaPaymentVerify = async (req, res) => {
     const data = req.body;
+    console.log(data)
 
     try {
+        await connectMongo()
         let result = await axios.post(`https://uat.esewa.com.np/epay/transrec`, data.params, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -142,6 +145,7 @@ export const esewaPaymentVerify = async (req, res) => {
                 });
 
                 const isDone = await newpayment.save();
+                console.log(isDone)
 
                 if (isDone) {
                     const findOrderById = await Order.findById(data.params.pid);
@@ -154,10 +158,8 @@ export const esewaPaymentVerify = async (req, res) => {
                     });
 
                     if (removerFromCart) {
-                        // console.log('Document removed successfully');
-                    } else {
-                        // console.log('Document not found');
-                    }
+                        console.log('Document removed successfully');
+                    } 
                 }
                 res.json({
                     message: "Order was successfully placed and verified"
@@ -179,6 +181,7 @@ export const esewaPaymentVerify = async (req, res) => {
 
 export const getTotalPayments=async(req,res)=>{
     try{
+        await connectMongo()
         const allPayments = await Payment.find();
         res.status(200).json(allPayments);
     }catch(e){
